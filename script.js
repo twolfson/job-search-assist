@@ -20,7 +20,7 @@ class AngelListCompanyResult {
   }
 }
 
-// Define our common to
+// Define our common function
 const main = () => {
   // Resolve our company results
   const companyEls = document.querySelectorAll('[data-test="StartupResult"]');
@@ -36,13 +36,15 @@ window.addEventListener('DOMContentLoaded', (evt) => {
 });
 
 // Expose tooling for debugging
+// Guidance on @grant requirements + test script, https://www.reddit.com/r/learnjavascript/comments/s2n99w/comment/hsh3k41/?context=3
 if (DEV) {
-  GM.registerMenuCommand("JSA: Dump Companies", () => {
+  GM.registerMenuCommand("JSA: Dump Hidden Companies", () => {
     console.error("Not implemented");
-    throw new Error("Not implemented");
   });
 
-  unsafeWindow.JSA_SHOW_COMPANY = () => {
-    throw new Error("Not implemented");
-  };
+  GM.registerMenuCommand("JSA: Unhide Company", () => {
+    const companyName = window.prompt("What's the company's name?");
+    console.log("Company name: ", companyName);
+    console.error("Not implemented");
+  });
 }
