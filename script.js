@@ -3,17 +3,26 @@
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @grant    GM.registerMenuCommand
+// @grant    GM.getValue
+// @grant    GM.setValue
 // @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
 // ==/UserScript==
 
 // Define script constants
 const DEV = true;
 const THROTTLE_FREQUENCY_MS = 300;
+const HIDE_LIST_KEY = "jsa-hide-list";
 
 // DEV: We were struggling with JSDeliver + ESM, so hardcoding some `assert` for now
 const assert = (val, msg) => {
   if (!val) { throw new Error(msg); }
 };
+
+const addCompanyToHideList = (companyName) => {
+  // TODO: Add parsing and whatnot -- needs to be CSV based
+  console.log('hide');
+  GM.setValue(HIDE_LIST_KEY, "foo");
+}
 
 // JSA = Job Search Assist
 const makeJsaButton = () => {
@@ -63,6 +72,10 @@ class AngelListCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = makeJsaButton();
+    const handleClick = () => {
+      addCompanyToHideList(this.name);
+    };
+    jsaHideButtonEl.onclick = handleClick;
 
     // Bind with desired layouts
     reportButtonEl.parentElement.insertBefore(jsaHideButtonEl, reportButtonEl);
@@ -91,13 +104,13 @@ window.addEventListener('DOMContentLoaded', (evt) => {
 // Expose tooling for debugging
 // Guidance on @grant requirements + test script, https://www.reddit.com/r/learnjavascript/comments/s2n99w/comment/hsh3k41/?context=3
 if (DEV) {
-  GM.registerMenuCommand("JSA: Dump Hidden Companies", () => {
-    console.error("Not implemented");
+  GM.registerMenuCommand("JSA: Dump Hidden Companies (outputs to console)", async () => {
+    console.info("Hidden companies: ", await GM.getValue(HIDE_LIST_KEY));
   });
 
   GM.registerMenuCommand("JSA: Unhide Company", () => {
     const companyName = window.prompt("What's the company's name?");
-    console.log("Company name: ", companyName);
+    console.log("Company name:", companyName);
     console.error("Not implemented");
   });
 }
