@@ -8,7 +8,7 @@
 
 // Define script constants
 const DEV = true;
-const DEBOUNCE_FREQUENCY_MS = 1000;
+const THROTTLE_FREQUENCY_MS = 300;
 
 // DEV: We were struggling with JSDeliver + ESM, so hardcoding some `assert` for now
 const assert = (val, msg) => {
@@ -84,8 +84,8 @@ const main = () => {
 // When the page loads
 window.addEventListener('DOMContentLoaded', (evt) => {
   main();
-  // https://lodash.com/docs/4.17.15#debounce
-  new MutationObserver(_.debounce(main, DEBOUNCE_FREQUENCY_MS)).observe(document.querySelector('body'), {childList: true, subtree: true})
+  // https://lodash.com/docs/4.17.15#throttle
+  new MutationObserver(_.throttle(main, THROTTLE_FREQUENCY_MS)).observe(document.querySelector('body'), {childList: true, subtree: true})
 });
 
 // Expose tooling for debugging
