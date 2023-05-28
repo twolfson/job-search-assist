@@ -6,10 +6,11 @@
 // @grant    GM.getValue
 // @grant    GM.setValue
 // @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
+// @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
 // ==/UserScript==
 
 // Define script constants
-const DEV = true;
+const DEBUG = true;
 const THROTTLE_FREQUENCY_MS = 300;
 const HIDE_LIST_KEY = "jsa-hide-list";
 
@@ -18,10 +19,18 @@ const assert = (val, msg) => {
   if (!val) { throw new Error(msg); }
 };
 
-const addCompanyToHideList = (companyName) => {
+const readHideList = async () => {
+  const csvContent = await GM.getValue(HIDE_LIST_KEY);
+  return Papa.parse(csvContent);
+}
+
+const addCompanyToHideList = async (companyName) => {
   // TODO: Add parsing and whatnot -- needs to be CSV based
-  console.log('hide');
-  GM.setValue(HIDE_LIST_KEY, "foo");
+  // TODO: Prob track "hidden_at" timestamp, maybe capture "website"?
+  await GM.setValue(HIDE_LIST_KEY, `company_name,hidden_at\n${companyName},${(new Date()).toISOString()}`);
+  if (DEBUG) {
+    console.debug(`DEBUG: ${HIDE_LIST_KEY}:\n${await GM.getValue(HIDE_LIST_KEY)}`);
+  }
 }
 
 // JSA = Job Search Assist
@@ -101,16 +110,13 @@ window.addEventListener('DOMContentLoaded', (evt) => {
   new MutationObserver(_.throttle(main, THROTTLE_FREQUENCY_MS)).observe(document.querySelector('body'), {childList: true, subtree: true})
 });
 
-// Expose tooling for debugging
 // Guidance on @grant requirements + test script, https://www.reddit.com/r/learnjavascript/comments/s2n99w/comment/hsh3k41/?context=3
-if (DEV) {
-  GM.registerMenuCommand("JSA: Dump Hidden Companies (outputs to console)", async () => {
-    console.info("Hidden companies: ", await GM.getValue(HIDE_LIST_KEY));
-  });
+GM.registerMenuCommand("JSA: Dump Hidden Companies (outputs to console)", async () => {
+  console.info(`Hidden companies:\n${await GM.getValue(HIDE_LIST_KEY)}`);
+});
 
-  GM.registerMenuCommand("JSA: Unhide Company", () => {
-    const companyName = window.prompt("What's the company's name?");
-    console.log("Company name:", companyName);
-    console.error("Not implemented");
-  });
-}
+GM.registerMenuCommand("JSA: Unhide Company", () => {
+  const companyName = window.prompt("What's the company's name?");
+  console.log("Company name:", companyName);
+  console.error("Not implemented");
+});
