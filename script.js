@@ -5,16 +5,14 @@
 // @grant    none
 // ==/UserScript==
 
-const $ = document.querySelector
-const $$ = document.querySelectorAll
-
 class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
+    this.name = this.getName();
   }
 
   getName() {
-
+    return this.el.querySelector('.relative h2').innerText;
   }
 }
 
@@ -22,14 +20,14 @@ class AngelListCompanyResult {
 const main = () => {
   // Resolve our company cards
   // TODO: Abstract to common cross-site setup
-  const companyEls = $$('data-test="StartupResult"');
-
-  console.log('hi');
+  const companyEls = document.querySelectorAll('[data-test="StartupResult"]');
+  const companyResults = [].slice.call(companyEls).map((el) => new AngelListCompanyResult(el))
+  console.log('hi', companyResults);
 }
 
 // When the page loads
 window.addEventListener('DOMContentLoaded', (evt) => {
   main();
   // TODO: Add debouncing
-  new MutationObserver(main).observe($('body'), {childList: true, subtree: true})
+  new MutationObserver(main).observe(document.querySelector('body'), {childList: true, subtree: true})
 });
