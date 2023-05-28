@@ -23,6 +23,8 @@ const makeJsaButton = () => {
   buttonEl.style.cssText = [
     // Based on "Salem" from https://hypercolor.dev/#gradients
     'background: linear-gradient(to left, rgb(27, 69, 160), rgb(127, 53, 185), rgb(124, 58, 237));',
+    // Taken from `drop-shadow-md`, https://tailwindcss.com/docs/drop-shadow#adding-a-drop-shadow
+    'filter: drop-shadow(rgba(0, 0, 0, 0.07) 0px 4px 3px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 2px 2px);',
     'color: white;',
     'font-weight: 500;',
     'padding: 0 0.75rem;', // 12px
