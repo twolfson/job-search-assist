@@ -69,7 +69,8 @@ class AngelListCompanyResult {
 // Define our common function
 const main = () => {
   // Resolve our company results
-  const companyEls = document.querySelectorAll('[data-test="StartupResult"]');
+  // DEV: `:not` filters out compact results
+  const companyEls = document.querySelectorAll('div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]');
   const companyResults = [].slice.call(companyEls).map((el) => new AngelListCompanyResult(el))
   console.log('hi', companyResults);
 }
