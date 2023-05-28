@@ -14,12 +14,18 @@ const makeButton = () => {
   // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
   //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
   const buttonEl = document.createElement('button');
-  // "Salem" from https://hypercolor.dev/#gradients
   buttonEl.style.cssText = [
-    'background: linear-gradient(to left, rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237))',
-    'color: white'
-  ].join(";")
-  buttonEl.value = 'Hide Company';
+    // Based on "Salem" from https://hypercolor.dev/#gradients
+    'background: linear-gradient(to left, rgb(27, 69, 160), rgb(127, 53, 185), rgb(124, 58, 237));',
+    'color: white;'
+    'font-weight: 500;',
+    'padding: 0 12px;',
+    'border-radius: 8px;',
+    'margin-left: auto;',
+    'cursor: pointer;',
+    'margin-right: 8px;',
+  ].join(" ")
+  buttonEl.innerText = 'Hide Company';
   return button;
 }
 
