@@ -5,6 +5,10 @@
 // @grant    none
 // ==/UserScript==
 
+// Define script constants
+const DEV = true;
+
+// Define common interface for company results across different sites
 class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
@@ -16,10 +20,9 @@ class AngelListCompanyResult {
   }
 }
 
-// Define our common function
+// Define our common to
 const main = () => {
-  // Resolve our company cards
-  // TODO: Abstract to common cross-site setup
+  // Resolve our company results
   const companyEls = document.querySelectorAll('[data-test="StartupResult"]');
   const companyResults = [].slice.call(companyEls).map((el) => new AngelListCompanyResult(el))
   console.log('hi', companyResults);
@@ -31,3 +34,14 @@ window.addEventListener('DOMContentLoaded', (evt) => {
   // TODO: Add debouncing
   new MutationObserver(main).observe(document.querySelector('body'), {childList: true, subtree: true})
 });
+
+// Expose tooling for debugging
+if (DEV) {
+  unsafeWindow.JSA_DUMP = function () {
+    throw new Error("Not implemented");
+  };
+
+  unsafeWindow.JSA_SHOW_COMPANY = () => {
+    throw new Error("Not implemented");
+  };
+}
