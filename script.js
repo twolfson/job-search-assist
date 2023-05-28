@@ -2,7 +2,7 @@
 // @name     Job search assist
 // @version  1
 // @include  https://wellfound.com/jobs*
-// @grant    none
+// @grant    GM.registerMenuCommand
 // ==/UserScript==
 
 // Define script constants
@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', (evt) => {
 
 // Expose tooling for debugging
 if (DEV) {
-  unsafeWindow.JSA_DUMP = function () {
+  GM.registerMenuCommand("JSA: Dump Companies", () => {
     throw new Error("Not implemented");
   };
 
