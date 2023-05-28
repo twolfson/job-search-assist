@@ -3,10 +3,13 @@
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @grant    GM.registerMenuCommand
+// @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
+//    Provides _.debounce
 // ==/UserScript==
 
 // Define script constants
 const DEV = true;
+const DEBOUNCE_FREQUENCY_MS = 1000;
 
 // Define common interface for company results across different sites
 class AngelListCompanyResult {
@@ -31,8 +34,8 @@ const main = () => {
 // When the page loads
 window.addEventListener('DOMContentLoaded', (evt) => {
   main();
-  // TODO: Add debouncing
-  new MutationObserver(main).observe(document.querySelector('body'), {childList: true, subtree: true})
+  // https://lodash.com/docs/4.17.15#debounce
+  new MutationObserver(_.debounce(main, DEBOUNCE_FREQUENCY_MS)).observe(document.querySelector('body'), {childList: true, subtree: true})
 });
 
 // Expose tooling for debugging
