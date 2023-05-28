@@ -3,13 +3,25 @@
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @grant    GM.registerMenuCommand
-// @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
-//    Provides _.debounce
+// @require  https://cdn.jsdelivr.net/npm/lodash.debounce@4.0.8/index.min.js
 // ==/UserScript==
 
 // Define script constants
 const DEV = true;
 const DEBOUNCE_FREQUENCY_MS = 1000;
+
+const makeButton = () => {
+  // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
+  //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
+  const buttonEl = document.createElement('button');
+  // "Salem" from https://hypercolor.dev/#gradients
+  buttonEl.style.cssText = [
+    'background: linear-gradient(to left, rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237))',
+    'color: white'
+  ].join(";")
+  buttonEl.value = 'Hide Company';
+  return button;
+}
 
 // Define common interface for company results across different sites
 class AngelListCompanyResult {
