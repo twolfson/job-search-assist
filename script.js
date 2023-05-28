@@ -1,16 +1,18 @@
 // ==UserScript==
-// @name     Job search assist
+// @name     Job Search Assist
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @grant    GM.registerMenuCommand
 // @require  https://cdn.jsdelivr.net/npm/lodash.debounce@4.0.8/index.min.js
+// @require  https://cdn.jsdelivr.net/npm/assert@2.0.0/build/assert.min.js
 // ==/UserScript==
 
 // Define script constants
 const DEV = true;
 const DEBOUNCE_FREQUENCY_MS = 1000;
 
-const makeButton = () => {
+// JSA = Job Search Assist
+const makeJsaButton = () => {
   // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
   //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
   const buttonEl = document.createElement('button');
@@ -19,14 +21,13 @@ const makeButton = () => {
     'background: linear-gradient(to left, rgb(27, 69, 160), rgb(127, 53, 185), rgb(124, 58, 237));',
     'color: white;'
     'font-weight: 500;',
-    'padding: 0 12px;',
-    'border-radius: 8px;',
-    'margin-left: auto;',
+    'padding: 0 0.75rem;', // 12px
+    'border-radius: 0.5rem;', // 8px
     'cursor: pointer;',
-    'margin-right: 8px;',
   ].join(" ")
   buttonEl.innerText = 'Hide Company';
-  return button;
+  buttonEl["data-job-search-assist"] = "true";
+  return buttonEl;
 }
 
 // Define common interface for company results across different sites
@@ -34,10 +35,29 @@ class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
     this.name = this.getName();
+    this.bindToElement();
   }
 
   getName() {
     return this.el.querySelector('.relative h2').innerText;
+  }
+
+  bindToElement() {
+    // TODO: Determine if already bound
+    // Find our insertion point
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll('button'));
+    // if (existingButtonEls.any((buttonEl) => {
+    const reportButtonEl = existingButtonEls.find((buttonEl) => buttonEl.innerText.contains("Report"))
+    assert(reportButtonEl, "Failed to find \"Report\" button")
+
+    // Generate and style our buttons
+    const jsaHideButtonEl = makeJsaButton();
+
+    // Bind with desired layouts
+    reportButtonEl.parentElemePnt.insertBefore(jsaHideButtonEl, reportButtonEl);
+    jsaHideButtonEl.style.marginLeft = 'auto';
+    jsaHideButtonEl.style.marginRight = '0.5rem'; // 8px
+    reportButtonEl.style.marginLeft = '0'; // 0px
   }
 }
 
