@@ -38,8 +38,9 @@ window.addEventListener('DOMContentLoaded', (evt) => {
 // Expose tooling for debugging
 if (DEV) {
   GM.registerMenuCommand("JSA: Dump Companies", () => {
+    console.error("Not implemented");
     throw new Error("Not implemented");
-  };
+  });
 
   unsafeWindow.JSA_SHOW_COMPANY = () => {
     throw new Error("Not implemented");
