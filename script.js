@@ -30,7 +30,8 @@ const makeJsaButton = () => {
     'cursor: pointer;',
   ].join(" ");
   buttonEl.innerText = 'Hide Company';
-  buttonEl.dataset["jsa-bound"] = "true";
+  // Will appear as `data-jsa-bound` in HTML
+  buttonEl.dataset.jsaBound = "true";
   return buttonEl;
 };
 
@@ -49,7 +50,7 @@ class AngelListCompanyResult {
   bindToElement() {
     // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll('button'));
-    if (existingButtonEls.any((buttonEl) => buttonEl.dataset["jsa-bound"])) {
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
       // TODO: Possibly reuse the existing element somehow instead?
       return;
     }
