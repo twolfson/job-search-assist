@@ -30,7 +30,7 @@ const makeJsaButton = () => {
     'cursor: pointer;',
   ].join(" ");
   buttonEl.innerText = 'Hide Company';
-  buttonEl["data-job-search-assist"] = "true";
+  buttonEl.dataset["jsa-bound"] = "true";
   return buttonEl;
 };
 
@@ -47,15 +47,18 @@ class AngelListCompanyResult {
   }
 
   bindToElement() {
-    // TODO: Determine if already bound
-    // Find our insertion point
-    console.log('finding');
+    // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll('button'));
-    // if (existingButtonEls.any((buttonEl) => {
+    if (existingButtonEls.any((buttonEl) => buttonEl.dataset["jsa-bound"])) {
+      // TODO: Possibly reuse the existing element somehow instead?
+      return;
+    }
+
+    // Find our insertion point
     const reportButtonEl = existingButtonEls.find((buttonEl) => buttonEl.innerText.includes("Report"))
     assert(reportButtonEl, `Failed to find \"Report\" button for ${this.name}`)
 
-    // Generate and style our buttons
+    // Generate our buttons
     const jsaHideButtonEl = makeJsaButton();
 
     // Bind with desired layouts
