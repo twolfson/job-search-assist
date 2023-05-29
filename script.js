@@ -95,7 +95,9 @@ class BaseCompanyResult {
     return [].slice.call(companyEls).map((el) => new klass(el));
   }
   static generateCompanyResultsFromDocument() {
-    throw new Error("`generateCompanyResultsFromDocument` not implemented. Please implement on child class");
+    throw new Error(
+      "`generateCompanyResultsFromDocument` not implemented. Please implement on child class"
+    );
   }
 
   constructor(el) {
@@ -105,10 +107,14 @@ class BaseCompanyResult {
   }
 
   getName() {
-    throw new Error("`getName` not implemented. Please implement on child class");
+    throw new Error(
+      "`getName` not implemented. Please implement on child class"
+    );
   }
   bindToElement() {
-    throw new Error("`bindToElement` not implemented. Please implement on child class");
+    throw new Error(
+      "`bindToElement` not implemented. Please implement on child class"
+    );
   }
 
   makeJsaHideButtonEl() {
@@ -156,7 +162,7 @@ class WellfoundCompanyResult extends BaseCompanyResult {
     const reportButtonEl = existingButtonEls.find((buttonEl) =>
       buttonEl.innerText.includes("Report")
     );
-    reportButtonEl.insertAdjacentElement('beforebegin', jsaHideButtonEl);
+    reportButtonEl.insertAdjacentElement("beforebegin", jsaHideButtonEl);
     jsaHideButtonEl.style.marginLeft = "auto";
     jsaHideButtonEl.style.marginRight = "0.5rem"; // 8px
     reportButtonEl.style.marginLeft = "0"; // 0px
@@ -165,7 +171,7 @@ class WellfoundCompanyResult extends BaseCompanyResult {
 
 class TechJobsForGoodCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
-    const companyEls = document.querySelectorAll('.three.column.grid .ui.card');
+    const companyEls = document.querySelectorAll(".three.column.grid .ui.card");
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
@@ -187,10 +193,9 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
     // Find our insertion point and bind with desired layout
-    const postedTimeEl = this.el.querySelector('.extra.content');
-    postedTimeEl.insertAdjacentElement('afterend', jsaHideButtonEl);
-    jsaHideButtonEl.style.display = 'block';
-
+    const postedTimeEl = this.el.querySelector(".extra.content");
+    postedTimeEl.insertAdjacentElement("afterend", jsaHideButtonEl);
+    jsaHideButtonEl.style.display = "block";
   }
 }
 
@@ -208,14 +213,19 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
 // Define our common function
 const main = async () => {
   // Resolve our company results
-  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({urlPattern}) => window.location.href.match(urlPattern));
+  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({ urlPattern }) =>
+    window.location.href.match(urlPattern)
+  );
   if (!result) {
     if (DEBUG) {
-      console.debug(`DEBUG: No matching pattern found for ${window.location.href}`);
+      console.debug(
+        `DEBUG: No matching pattern found for ${window.location.href}`
+      );
     }
     return;
   }
-  const companyResults = result.companyResultClass.generateCompanyResultsFromDocument();
+  const companyResults =
+    result.companyResultClass.generateCompanyResultsFromDocument();
 
   // Find and hide companies which should already be hidden
   const hideList = await readHideList();
