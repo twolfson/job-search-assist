@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Job Search Assist
-// @version  1.1.2
+// @version  1.1.3
 //   TODO: Auto-update as part of release
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
@@ -16,8 +16,9 @@
 //   Provides Papa
 // @require  assert.js
 //   Provides Papa
-// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/src/script.user.js
-// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/src/script.user.js
+// @updateURL   https://cdn.jsdelivr.net/gh/twolfson/job-search-assist@dev/github.hosted/src/script.user.js
+// @downloadURL https://cdn.jsdelivr.net/gh/twolfson/job-search-assist@dev/github.hosted/src/script.user.js
+//   DEV: https://raw.githubusercontent.com/ caches content, so use a different service
 // @run-at document-end
 // ==/UserScript==
 
