@@ -77,9 +77,8 @@ const makeJsaButton = () => {
     // Taken from `drop-shadow-md`, https://tailwindcss.com/docs/drop-shadow#adding-a-drop-shadow
     "filter: drop-shadow(rgba(0, 0, 0, 0.07) 0px 4px 3px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 2px 2px);",
     "color: white;",
+    "border: 0;",
     "font-weight: 500;",
-    "padding: 0 0.75rem;", // 12px
-    "border-radius: 0.5rem;", // 8px
     "cursor: pointer;",
   ].join(" ");
   buttonEl.innerText = "Hide Company";
@@ -163,6 +162,9 @@ class WellfoundCompanyResult extends BaseCompanyResult {
       buttonEl.innerText.includes("Report")
     );
     reportButtonEl.insertAdjacentElement("beforebegin", jsaHideButtonEl);
+
+    jsaHideButtonEl.style.padding = "0 0.75rem"; // 12px
+    jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
     jsaHideButtonEl.style.marginLeft = "auto";
     jsaHideButtonEl.style.marginRight = "0.5rem"; // 8px
     reportButtonEl.style.marginLeft = "0"; // 0px
@@ -193,8 +195,9 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
     // Find our insertion point and bind with desired layout
-    const postedTimeEl = this.el.querySelector(".extra.content");
+    const postedTimeEl = [].find.call(this.el.children, (childEl) => childEl.matches(".extra.content"));
     postedTimeEl.insertAdjacentElement("afterend", jsaHideButtonEl);
+    jsaHideButtonEl.style.padding = "0.75rem"; // 12px
     jsaHideButtonEl.style.display = "block";
   }
 }
