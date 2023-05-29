@@ -128,6 +128,9 @@ class BaseCompanyResult {
       // On sites like Climatebase where the container is a link (<a>), prevent that action
       evt.stopPropagation();
       evt.preventDefault();
+
+      // Re-run page bindings for multi-hide (e.g. Climatebase)
+      bindToPage();
     };
     jsaHideButtonEl.onclick = handleClick;
     return jsaHideButtonEl;
@@ -268,7 +271,8 @@ class ClimatebaseCompanyResult extends BaseCompanyResult {
     jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
     // Find our insertion point and bind with desired layout
-    const tagsRowEl = this.el.querySelector(".list_card__tags");
+    // DEV: "Novi Connect" under "https://climatebase.org/jobs?l=&q=Software+Engineer&p=0&remote=true" lacked a tags row
+    const tagsRowEl = this.el.querySelector(".list_card__tags") || this.el.querySelector(".list_card__metadata");
     tagsRowEl.insertAdjacentElement("afterend", jsaRowWrapperEl);
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
@@ -297,7 +301,7 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
 ];
 
 // Define our common function
-const main = async () => {
+const bindToPage = async () => {
   // Resolve our company results
   const result = URL_PATTERN_TO_RESULT_MATCHES.find(({ urlPattern }) =>
     window.location.href.match(urlPattern)
@@ -331,9 +335,9 @@ const main = async () => {
 
 // When the page loads (set via `@run-at`)
 const handleDocumentEnd = () => {
-  main();
+  bindToPage();
   // https://lodash.com/docs/4.17.15#throttle
-  new MutationObserver(_.throttle(main, THROTTLE_FREQUENCY_MS)).observe(
+  new MutationObserver(_.throttle(bindToPage, THROTTLE_FREQUENCY_MS)).observe(
     document.querySelector("body"),
     { childList: true, subtree: true }
   );
