@@ -84,8 +84,6 @@ class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
     this.name = this.getName();
-
-    if (should
     this.bindToElement();
   }
 
@@ -94,6 +92,8 @@ class AngelListCompanyResult {
   }
 
   bindToElement() {
+    // DEV: We always add elements, regardless of being hidden or not -- e.g. futureproof unhide support
+
     // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll('button'));
     if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
@@ -120,17 +120,30 @@ class AngelListCompanyResult {
   }
 
   hide() {
+    // DEV: We could check if this is already hidden, but it's simple to just keep hiding it
     this.el.style.display = "none";
   }
 }
 
 // Define our common function
-const main = () => {
+const main = async () => {
   // Resolve our company results
   // DEV: `:not` filters out compact results
   const companyEls = document.querySelectorAll('div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]');
-  const companyResults = [].slice.call(companyEls).map((el) => new AngelListCompanyResult(el))
-  console.log('hi', companyResults);
+  const companyResults = [].slice.call(companyEls).map((el) => new AngelListCompanyResult(el));
+
+  // Find and hide companies which should already be hidden
+  const hideList = await readHideList();
+  const hideListByName = {}
+  hideList.forEach((hideEntry) => { hideListByName[hideEntry.company_name] = hideEntry });
+  companyResults.forEach((companyResult) => {
+    if (hideListByName.hasOwnProperty(companyResult.name)) {
+      companyResult.hide();
+    }
+  });
+  if (DEBUG) {
+    console.debug('DEBUG: Company results loaded:', companyResults);
+  }
 }
 
 // When the page loads
