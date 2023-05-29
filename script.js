@@ -72,7 +72,7 @@ const addCompanyToHideList = async (companyName) => {
 
 const makeJsaButton = () => {
   // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
-  //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
+  //   Violentmonkey supports JSX, which is ideal but we initially developed on Greasemonkey + had said issues
   const buttonEl = document.createElement("button");
   // DEV: We could add `:hover` styles to page via `GM_AddStyle` but that's annoying to migrate to an extension
   buttonEl.style.cssText = [
