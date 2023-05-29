@@ -14,8 +14,10 @@
 //   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
 //   Provides Papa
-// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.user.js
-// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.user.js
+// @require  assert.js
+//   Provides Papa
+// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/src/script.user.js
+// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/src/script.user.js
 // @run-at document-end
 // ==/UserScript==
 
@@ -23,13 +25,6 @@
 const DEBUG = true;
 const THROTTLE_FREQUENCY_MS = 300;
 const HIDE_LIST_KEY = "jsa-hide-list";
-
-// DEV: We were struggling with JSDeliver + ESM, so hardcoding some `assert` for now
-const assert = (val, msg) => {
-  if (!val) {
-    throw new Error(msg);
-  }
-};
 
 const readHideList = async () => {
   // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
