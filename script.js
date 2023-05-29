@@ -91,7 +91,8 @@ const makeJsaButton = () => {
 // Define company result interfaces across different sites
 class BaseCompanyResult {
   static generateCompanyResultsFromCollection(companyEls) {
-    return [].slice.call(companyEls).map((el) => new this.constructor(el));
+    const klass = this;
+    return [].slice.call(companyEls).map((el) => new klass(el));
   }
   static generateCompanyResultsFromDocument() {
     throw new Error("`generateCompanyResultsFromDocument` not implemented. Please implement on child class");
