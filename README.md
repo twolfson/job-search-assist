@@ -49,6 +49,15 @@ To update to the latest version:
 3. Click on "Edit"
 4. Repeat steps 4-7 from "Installation"
 
+## Development
+Development is somewhat janky as well, but faster than iterating with build steps and pressing a "Reload" button
+
+- Edit either (locally + copy content to Greasemonkey) OR edit directly inside of Greasemonkey
+- When ready to commit, copy content to local editor and commit changes
+
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
+
 ## Unlicense
 As of May 28 2023, Todd Wolfson has released this repository and its contents to the public domain.
 
