@@ -198,7 +198,9 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
     // Find our insertion point and bind with desired layout
-    const postedTimeEl = [].find.call(this.el.children, (childEl) => childEl.matches(".extra.content"));
+    const postedTimeEl = [].find.call(this.el.children, (childEl) =>
+      childEl.matches(".extra.content")
+    );
     postedTimeEl.insertAdjacentElement("afterend", jsaHideButtonEl);
     jsaHideButtonEl.style.padding = "0.75rem"; // 12px
     jsaHideButtonEl.style.display = "block";
@@ -207,7 +209,9 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
 
 class WorkAtAStartupCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
-    const companyEls = document.querySelectorAll(".directory-list > div:not(.loading)");
+    const companyEls = document.querySelectorAll(
+      ".directory-list > div:not(.loading)"
+    );
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
@@ -224,7 +228,7 @@ class WorkAtAStartupCompanyResult extends BaseCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
-    const jsaRowWrapperEl = document.createElement("div")
+    const jsaRowWrapperEl = document.createElement("div");
     jsaRowWrapperEl.style.display = "flex";
     jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
@@ -258,7 +262,7 @@ class ClimatebaseCompanyResult extends BaseCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
-    const jsaRowWrapperEl = document.createElement("div")
+    const jsaRowWrapperEl = document.createElement("div");
     jsaRowWrapperEl.style.display = "flex";
     jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
