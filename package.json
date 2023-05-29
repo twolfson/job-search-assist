@@ -1,6 +1,6 @@
 {
   "name": "job-search-assist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Browser extension to avoid seeing the same job/company listing twice",
   "main": "script.js",
