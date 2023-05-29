@@ -274,7 +274,9 @@ class ClimatebaseCompanyResult extends BaseCompanyResult {
 
     // Find our insertion point and bind with desired layout
     // DEV: "Novi Connect" under "https://climatebase.org/jobs?l=&q=Software+Engineer&p=0&remote=true" lacked a tags row
-    const tagsRowEl = this.el.querySelector(".list_card__tags") || this.el.querySelector(".list_card__metadata");
+    const tagsRowEl =
+      this.el.querySelector(".list_card__tags") ||
+      this.el.querySelector(".list_card__metadata");
     tagsRowEl.insertAdjacentElement("afterend", jsaRowWrapperEl);
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
