@@ -22,9 +22,6 @@ const assert = (val, msg) => {
   if (!val) { throw new Error(msg); }
 };
 
-// Singleton to capture updates without requiring `await` for every interaction
-const hideList = null;
-
 const readHideList = async () => {
   // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
   const csvContent = await GM.getValue(HIDE_LIST_KEY);
@@ -32,8 +29,6 @@ const readHideList = async () => {
     return [];
   }
 
-  // TODO: If parsing/unparsing or linear searching performance gets bad,
-  //   then consider caching the results in-memory and building an lookup map
   const parseResults = Papa.parse(csvContent, {header: true});
   if (parseResults.errors.length) {
     throw new Error(`Parse errors: ${JSON.stringify(parseResults.errors)}`);
@@ -47,6 +42,11 @@ const readHideList = async () => {
 }
 
 const addCompanyToHideList = async (companyName) => {
+  // DEV: Always read from storage to support multiple pages (otherwise cache-based writes lose recent edits)
+  // TODO: If parsing/unparsing or linear searching performance gets bad,
+  //   then consider using an in-memory cache (requiring checksum unchanged for multi-page support)
+  //   and building an lookup map built on same checksum mechanism
+  const hideList = await readHideList();
   hideList.push({"company_name": companyName, "hidden_at": (new Date()).toISOString()});
 
   const csvContent = Papa.unparse(hideList);
@@ -84,6 +84,7 @@ class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
     this.name = this.getName();
+
     if (should
     this.bindToElement();
   }
@@ -124,12 +125,7 @@ class AngelListCompanyResult {
 }
 
 // Define our common function
-const main = async () => {
-  // If we haven't loaded from storage yet, do so now
-  if (!hideList) {
-    hideList = await readHideList();
-  }
-
+const main = () => {
   // Resolve our company results
   // DEV: `:not` filters out compact results
   const companyEls = document.querySelectorAll('div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]');
