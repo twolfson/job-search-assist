@@ -6,7 +6,9 @@
 // @grant    GM.getValue
 // @grant    GM.setValue
 // @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
+//   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
+//   Provides Papa
 // ==/UserScript==
 
 // Define script constants
@@ -20,16 +22,29 @@ const assert = (val, msg) => {
 };
 
 const readHideList = async () => {
+  // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
   const csvContent = await GM.getValue(HIDE_LIST_KEY);
-  return Papa.parse(csvContent);
+  // TODO: Handle empty data
+  const parseResults = Papa.parse(csvContent, {header: true});
+  if (parseResults.errors.length) {
+    throw new Error(`Parse errors: ${JSON.stringify(parseResults.errors)}`);
+  }
+  return parseResults.data;
 }
 
 const addCompanyToHideList = async (companyName) => {
-  // TODO: Add parsing and whatnot -- needs to be CSV based
-  // TODO: Prob track "hidden_at" timestamp, maybe capture "website"?
-  await GM.setValue(HIDE_LIST_KEY, `company_name,hidden_at\n${companyName},${(new Date()).toISOString()}`);
+  const hideList = await readHideList();
+  if (hideList.length) {
+    assert(hideList[0].hidden_at, `Data structure not as expected ${hideList}`);
+  }
+
+  hideList.push({"company_name": companyName, "hidden_at": (new Date()).toISOString()});
+
+  const csvContent = Papa.unparse(hideList);
+  await GM.setValue(HIDE_LIST_KEY, csvContent);
+
   if (DEBUG) {
-    console.debug(`DEBUG: ${HIDE_LIST_KEY}:\n${await GM.getValue(HIDE_LIST_KEY)}`);
+    console.debug(`DEBUG: Company hidden "${companyName}"\n${HIDE_LIST_KEY}:\n${await GM.getValue(HIDE_LIST_KEY)}`);
   }
 }
 
