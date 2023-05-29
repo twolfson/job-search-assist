@@ -4,3 +4,8 @@ const assert = (val, msg) => {
     throw new Error(msg);
   }
 };
+const assert2 = (val, msg) => {
+  if (!val) {
+    throw new Error(msg);
+  }
+};

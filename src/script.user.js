@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Job Search Assist
-// @version  1.1.1
+// @version  1.1.2
 //   TODO: Auto-update as part of release
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
