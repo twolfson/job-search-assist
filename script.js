@@ -93,11 +93,21 @@ class BaseCompanyResult {
   static generateCompanyResultsFromCollection(companyEls) {
     return [].slice.call(companyEls).map((el) => new this.constructor(el));
   }
+  static generateCompanyResultsFromDocument() {
+    throw new Error("`generateCompanyResultsFromDocument` not implemented. Please implement on child class");
+  }
 
   constructor(el) {
     this.el = el;
     this.name = this.getName();
     this.bindToElement();
+  }
+
+  getName() {
+    throw new Error("`getName` not implemented. Please implement on child class");
+  }
+  bindToElement() {
+    throw new Error("`bindToElement` not implemented. Please implement on child class");
   }
 
   makeJsaHideButtonEl() {
@@ -173,8 +183,14 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
 // Define our common function
 const main = async () => {
   // Resolve our company results
-  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({urlPattern}) => urlPattern.match(window.location));
-  console.log(result);
+  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({urlPattern}) => window.location.href.match(urlPattern));
+  if (!result) {
+    if (DEBUG) {
+      console.debug(`DEBUG: No matching pattern found for ${window.location.href}`);
+    }
+    return;
+  }
+  const companyResults = result.companyResultClass.generateCompanyResultsFromDocument();
 
   // Find and hide companies which should already be hidden
   const hideList = await readHideList();
