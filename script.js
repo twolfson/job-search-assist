@@ -4,6 +4,7 @@
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
 // @include  https://www.workatastartup.com/companies*
+// @include  https://climatebase.org/jobs*
 // @grant    GM.registerMenuCommand
 // @grant    GM.getValue
 // @grant    GM.setValue
@@ -120,9 +121,12 @@ class BaseCompanyResult {
 
   makeJsaHideButtonEl() {
     const jsaHideButtonEl = makeJsaButton();
-    const handleClick = () => {
+    const handleClick = (evt) => {
       addCompanyToHideList(this.name);
       this.hide();
+      // On sites like Climatebase where the container is a link (<a>), prevent that action
+      evt.stopPropagation();
+      evt.preventDefault();
     };
     jsaHideButtonEl.onclick = handleClick;
     return jsaHideButtonEl;
@@ -184,8 +188,6 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
   }
 
   bindToElement() {
-    // DEV: We always add elements, regardless of being hidden or not -- e.g. futureproof unhide support
-
     // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
     if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
@@ -210,13 +212,10 @@ class WorkAtAStartupCompanyResult extends BaseCompanyResult {
   }
 
   getName() {
-    console.log('hi', this.el);
     return this.el.querySelector(".company-name").innerText;
   }
 
   bindToElement() {
-    // DEV: We always add elements, regardless of being hidden or not -- e.g. futureproof unhide support
-
     // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
     if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
@@ -240,6 +239,39 @@ class WorkAtAStartupCompanyResult extends BaseCompanyResult {
   }
 }
 
+class ClimatebaseCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    const companyEls = document.querySelectorAll("#jobList > .list_card");
+    return this.generateCompanyResultsFromCollection(companyEls);
+  }
+
+  getName() {
+    return this.el.querySelector(".list_card__subtitle").innerText;
+  }
+
+  bindToElement() {
+    // If we're already bound, exit out
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
+      return;
+    }
+
+    // Generate our buttons
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
+    const jsaRowWrapperEl = document.createElement("div")
+    jsaRowWrapperEl.style.display = "flex";
+    jsaRowWrapperEl.appendChild(jsaHideButtonEl);
+
+    // Find our insertion point and bind with desired layout
+    const tagsRowEl = this.el.querySelector(".list_card__tags");
+    tagsRowEl.insertAdjacentElement("afterend", jsaRowWrapperEl);
+    jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
+    jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
+    jsaHideButtonEl.style.marginTop = "0.75rem"; // 12px
+    jsaHideButtonEl.style.marginLeft = "auto"; // Leverage `flex` wrapper to align right
+  }
+}
+
 const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/wellfound.com\//,
@@ -250,9 +282,12 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
     companyResultClass: TechJobsForGoodCompanyResult,
   },
   {
-
     urlPattern: /https:\/\/www.workatastartup.com\//,
     companyResultClass: WorkAtAStartupCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/climatebase.org\//,
+    companyResultClass: ClimatebaseCompanyResult,
   },
 ];
 
