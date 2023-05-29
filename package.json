@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/twolfson/job-search-assist.git"
   },
-  "author": "Todd Wolfson <todd@twolfson.com> (http://twolfson.com/)",
+  "author": "Todd Wolfson <todd@twolfson.com> (https://twolfson.com/)",
   "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/twolfson/job-search-assist/issues"
