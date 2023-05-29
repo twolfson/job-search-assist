@@ -5,7 +5,8 @@
   "description": "Browser extension to avoid seeing the same job/company listing twice",
   "main": "script.js",
   "scripts": {
-    "lint": "eslint *.js --max-warnings 0",
+    "format": "eslint --fix *.js && prettier --write *.js",
+    "lint": "eslint *.js --max-warnings 0 && prettier --check *.js",
     "test": "npm run lint"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/twolfson/job-search-assist#readme",
   "devDependencies": {
+    "@babel/eslint-parser": "~7.21.8",
     "eslint": "~8.41.0",
     "eslint-config-prettier": "~8.8.0",
     "foundry": "~4.7.0",
