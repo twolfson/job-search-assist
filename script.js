@@ -1,18 +1,19 @@
 // ==UserScript==
-// @name     Job Search Assist (JSA)
+// @name     Job Search Assist
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
 // @include  https://www.workatastartup.com/companies*
 // @include  https://climatebase.org/jobs*
-// @grant    GM.registerMenuCommand
-// @grant    GM.getValue
-// @grant    GM.setValue
-// @grant    GM.deleteValue
+// @grant    GM_registerMenuCommand
+// @grant    GM_getValue
+// @grant    GM_setValue
+// @grant    GM_deleteValue
 // @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
 //   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
 //   Provides Papa
+// @run-at document-end
 // ==/UserScript==
 
 // Define script constants
@@ -29,7 +30,7 @@ const assert = (val, msg) => {
 
 const readHideList = async () => {
   // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
-  const csvContent = await GM.getValue(HIDE_LIST_KEY);
+  const csvContent = await GM_getValue(HIDE_LIST_KEY);
   if (!csvContent) {
     return [];
   }
@@ -58,11 +59,11 @@ const addCompanyToHideList = async (companyName) => {
   });
 
   const csvContent = Papa.unparse(hideList);
-  await GM.setValue(HIDE_LIST_KEY, csvContent);
+  await GM_setValue(HIDE_LIST_KEY, csvContent);
 
   if (DEBUG) {
     console.debug(
-      `DEBUG: Company hidden "${companyName}"\n${HIDE_LIST_KEY}:\n${await GM.getValue(
+      `DEBUG: Company hidden "${companyName}"\n${HIDE_LIST_KEY}:\n${await GM_getValue(
         HIDE_LIST_KEY
       )}`
     );
@@ -328,32 +329,33 @@ const main = async () => {
   }
 };
 
-// When the page loads
-window.addEventListener("DOMContentLoaded", (evt) => {
+// When the page loads (set via `@run-at`)
+const handleDocumentEnd = () => {
   main();
   // https://lodash.com/docs/4.17.15#throttle
   new MutationObserver(_.throttle(main, THROTTLE_FREQUENCY_MS)).observe(
     document.querySelector("body"),
     { childList: true, subtree: true }
   );
-});
+};
+handleDocumentEnd();
 
 // Guidance on @grant requirements + test script, https://www.reddit.com/r/learnjavascript/comments/s2n99w/comment/hsh3k41/?context=3
-GM.registerMenuCommand(
-  "JSA: Dump Hidden Companies (outputs to console)",
+GM_registerMenuCommand(
+  "Dump Hidden Companies (outputs to console)",
   async () => {
-    console.info(`Hidden companies:\n${await GM.getValue(HIDE_LIST_KEY)}`);
+    console.info(`Hidden companies:\n${await GM_getValue(HIDE_LIST_KEY)}`);
   }
 );
 
-GM.registerMenuCommand("JSA: Clear Hidden Company List", async () => {
+GM_registerMenuCommand("Clear Hidden Company List", async () => {
   const confirmationMessage = "Yes, clear the list";
   const numEntries = (await readHideList()).length;
   const promptEntry = window.prompt(
     `Type "${confirmationMessage}" to delete the list (${numEntries} entries)`
   );
   if (promptEntry === confirmationMessage) {
-    await GM.deleteValue(HIDE_LIST_KEY);
+    await GM_deleteValue(HIDE_LIST_KEY);
     window.location.reload();
   }
 });
