@@ -33,20 +33,15 @@ A browser extension which:
 [Open an issue]: https://github.com/twolfson/job-search-assist/issues
 
 ## Installation
-We don't know how relatable this problem is to other people. As a result, the setup and update process is janky:
-
 1. Install [Violentmonkey][]
-2. Click on the "Violentmonkey" icon
-3. Click "+" to add a new script
-4. Open <https://raw.githubusercontent.com/twolfson/job-search-assist/main/script.js>
-5. Copy the content into our new
-6. Type Ctrl+S or Cmd+S to save the script
-7. Navigate to <https://www.techjobsforgood.com/> and verify the new "Hide Company" button appears
+2. Open <https://github.com/twolfson/job-search-assist/raw/main/src/index.user.js>
+3. Click "Confirm Installation" then "Close"
+4. Navigate to <https://www.techjobsforgood.com/> and verify the new "Hide Company" button appears
 
-If we get enough adoption, then I can formalize this into a proper web extension (just has more upfront development effort).
+For easier upfront development, we built this on top of [Violentmonkey][]. If we get enough adoption, then we can formalize this into a proper [browser extension][].
 
-[Firefox]: https://www.mozilla.org/en-US/firefox/new/
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
+[browser extension]: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 
 ## Commands
 In addition to hiding companies, we also provide commands under "Violentmonkey icon -> Job Search Assist"
@@ -63,10 +58,8 @@ It's very easy to add support for "Undo Changes in Last 5 Minutes", "Unhide Comp
 ## Updates
 To update to the latest version:
 
-1. Click on the "Violentmonkey" icon
-2. Click on "Job Search Assist"
-3. Click on "Edit"
-4. Repeat steps 4-7 from "Installation"
+1. Open <https://github.com/twolfson/job-search-assist/raw/main/src/index.user.js>
+2. Click on "Confirm re-installation" the "Close"
 
 ## Development
 Development was somewhat janky as well due to using [Greasmonkey][], but faster than iterating with build steps and pressing a "Reload" button
