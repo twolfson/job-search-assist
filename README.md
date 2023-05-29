@@ -4,7 +4,7 @@ Browser extension to avoid seeing the same job/company listing twice
 ## Problem Definition
 > "Ugh, I refreshed the page and am seeing the same listings!" - Me
 >
-> "I just saw this company on another site!!" - Also me
+> "Grr, I just saw this company on another site!!" - Also me
 
 In user story form: As a job searcher, I want to avoid reading the same job/company listing twice
 
@@ -43,6 +43,7 @@ We don't know how relatable this problem is to other people. As a result, the se
 If we get enough adoption, then I can formalize this into a proper web extension (just has more upfront development effort).
 
 [Greasemonkey]: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
+[Firefox]: https://www.mozilla.org/en-US/firefox/new/
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
 
 ## Commands
@@ -70,7 +71,7 @@ Development is somewhat janky as well, but faster than iterating with build step
 - When ready to commit, copy content to local editor and commit changes
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint`, format via `npm run format`, and test via `npm test`.
 
 ## Unlicense
 As of May 28 2023, Todd Wolfson has released this repository and its contents to the public domain.
