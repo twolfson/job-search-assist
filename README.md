@@ -13,8 +13,11 @@ A browser extension which:
 - Surfaces a "Hide Company" button on supported websites
 - Hides job/company listing on click, on refresh, and across all websites
 
-TODO: Demo video goes here
-<!-- https://imgur.com/a/j81PXQu -->
+### Demo Video
+[![Reduced size demo video GIF](https://i.imgur.com/sd4QH0Z.gif)](https://imgur.com/m8ocwXx)
+<br/>
+[Watch full size video](https://imgur.com/m8ocwXx)
+<!-- Full album: https://imgur.com/a/j81PXQu -->
 
 ## Supported Websites
 - [Wellfound][] (fka AngelList)
