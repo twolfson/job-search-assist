@@ -71,6 +71,7 @@ const makeJsaButton = () => {
   // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
   //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
   const buttonEl = document.createElement("button");
+  // DEV: We could add `:hover` styles to page via `GM_AddStyle` but that's annoying to migrate to an extension
   buttonEl.style.cssText = [
     // Based on "Salem" from https://hypercolor.dev/#gradients
     "background: linear-gradient(to left, rgb(127, 53, 185), rgb(124, 58, 237));",
