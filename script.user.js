@@ -14,8 +14,8 @@
 //   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
 //   Provides Papa
-// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.js
-// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.js
+// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.user.js
+// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.user.js
 // @run-at document-end
 // ==/UserScript==
 
