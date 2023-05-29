@@ -3,6 +3,7 @@
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
+// @include  https://www.workatastartup.com/companies*
 // @grant    GM.registerMenuCommand
 // @grant    GM.getValue
 // @grant    GM.setValue
@@ -163,7 +164,6 @@ class WellfoundCompanyResult extends BaseCompanyResult {
       buttonEl.innerText.includes("Report")
     );
     reportButtonEl.insertAdjacentElement("beforebegin", jsaHideButtonEl);
-
     jsaHideButtonEl.style.padding = "0 0.75rem"; // 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
     jsaHideButtonEl.style.marginLeft = "auto";
@@ -179,7 +179,7 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
   }
 
   getName() {
-    // DEV: `innerText` is uppercasing content on Firefox due to CSS style
+    // DEV: `innerText` is uppercasing content on Firefox due to CSS style (keep to only Tech Jobs for Good please)
     return this.el.querySelector(".company_name").innerHTML;
   }
 
@@ -203,6 +203,38 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
   }
 }
 
+class WorkAtAStartupCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    const companyEls = document.querySelectorAll(".directory-list > div:not(.loading)");
+    return this.generateCompanyResultsFromCollection(companyEls);
+  }
+
+  getName() {
+    console.log('hi', this.el);
+    return this.el.querySelector(".company-name").innerText;
+  }
+
+  bindToElement() {
+    // DEV: We always add elements, regardless of being hidden or not -- e.g. futureproof unhide support
+
+    // If we're already bound, exit out
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
+      return;
+    }
+
+    // Generate our buttons
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
+
+    // Find our insertion point and bind with desired layout
+    const tagsRowEl = [].find.call(this.el.querySelectorAll(".w-full > div"), (childEl) => childEl.querySelector(".fa-map-marker"));
+    tagsRowEl.insertAdjacentElement("afterend", jsaHideButtonEl);
+    jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
+    jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
+    jsaHideButtonEl.style.marginTop = "0.75rem"; // 12px
+  }
+}
+
 const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/wellfound.com\//,
@@ -211,6 +243,11 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/www.techjobsforgood.com\//,
     companyResultClass: TechJobsForGoodCompanyResult,
+  },
+  {
+
+    urlPattern: /https:\/\/www.workatastartup.com\//,
+    companyResultClass: WorkAtAStartupCompanyResult,
   },
 ];
 
