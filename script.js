@@ -226,7 +226,7 @@ class WorkAtAStartupCompanyResult extends BaseCompanyResult {
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
     const jsaRowWrapperEl = document.createElement("div")
-    jsaRowWrapperEl.className = "flex"; // Leverage page's styles
+    jsaRowWrapperEl.style.display = "flex";
     jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
     // Find our insertion point and bind with desired layout
