@@ -5,6 +5,7 @@
 // @grant    GM.registerMenuCommand
 // @grant    GM.getValue
 // @grant    GM.setValue
+// @grant    GM.deleteValue
 // @require  https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
 //   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
@@ -24,7 +25,10 @@ const assert = (val, msg) => {
 const readHideList = async () => {
   // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
   const csvContent = await GM.getValue(HIDE_LIST_KEY);
-  // TODO: Handle empty data
+  if (!csvContent) {
+    return [];
+  }
+
   const parseResults = Papa.parse(csvContent, {header: true});
   if (parseResults.errors.length) {
     throw new Error(`Parse errors: ${JSON.stringify(parseResults.errors)}`);
@@ -134,4 +138,15 @@ GM.registerMenuCommand("JSA: Unhide Company", () => {
   const companyName = window.prompt("What's the company's name?");
   console.log("Company name:", companyName);
   console.error("Not implemented");
+});
+
+
+GM.registerMenuCommand("JSA: Clear Hidden Company List", async () => {
+  const confirmationMessage = "Yes, clear the list";
+  const numEntries = (await readHideList()).length;
+  const promptEntry = window.prompt(`Type "${confirmationMessage}" to delete the list (${numEntries} entries)`);
+  if (promptEntry === confirmationMessage) {
+    await GM.deleteValue(HIDE_LIST_KEY);
+    window.location.reload();
+  }
 });
