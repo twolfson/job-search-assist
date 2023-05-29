@@ -1,4 +1,4 @@
-# Job Search Assist (JSA)
+# Job Search Assist
 Browser extension to avoid seeing the same job/company listing twice
 
 ## Problem Definition
@@ -35,44 +35,49 @@ A browser extension which:
 ## Installation
 We don't know how relatable this problem is to other people. As a result, the setup and update process is janky:
 
-1. Install [Greasemonkey][]
-    - If you are not using [Firefox][], let me know and I can add support for [Violentmonkey][]
-2. Click on the "Greasemonkey" icon
-3. Click "New user script..."
+1. Install [Violentmonkey][]
+2. Click on the "Violentmonkey" icon
+3. Click "+" to add a new script
 4. Open <https://raw.githubusercontent.com/twolfson/job-search-assist/main/script.js>
-5. Copy the content into our New User Script
+5. Copy the content into our new
 6. Type Ctrl+S or Cmd+S to save the script
 7. Navigate to <https://www.techjobsforgood.com/> and verify the new "Hide Company" button appears
 
 If we get enough adoption, then I can formalize this into a proper web extension (just has more upfront development effort).
 
-[Greasemonkey]: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
 [Firefox]: https://www.mozilla.org/en-US/firefox/new/
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
 
 ## Commands
-In addition to hiding companies, we also provide commands via "Greasemonkey icon -> User script commands... -> JSA: ..."
+In addition to hiding companies, we also provide commands under "Violentmonkey icon -> Job Search Assist"
+
+These will only appear when on a supported site
 
 The commands are:
 
-- JSA: Dump Hidden Companies (outputs to console)
-- JSA: Clear Hidden Company List
+- Dump Hidden Companies (outputs to console)
+- Clear Hidden Company List
 
 It's very easy to add support for "Undo Changes in Last 5 Minutes", "Unhide Company", or something along those lines. If you'd like support for that, please [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
 ## Updates
 To update to the latest version:
 
-1. Click on the "Greasemonkey" icon
-2. Click on "Job Search Assist (JSA)"
+1. Click on the "Violentmonkey" icon
+2. Click on "Job Search Assist"
 3. Click on "Edit"
 4. Repeat steps 4-7 from "Installation"
 
 ## Development
-Development is somewhat janky as well, but faster than iterating with build steps and pressing a "Reload" button
+Development was somewhat janky as well due to using [Greasmonkey][], but faster than iterating with build steps and pressing a "Reload" button
 
-- Edit either (locally + copy content to Greasemonkey) OR edit directly inside of Greasemonkey
+- Edit either (locally + copy content to Violentmonkey) OR edit directly inside of Violentmonkey
 - When ready to commit, copy content to local editor and commit changes
+
+- Alternatively, Violentmonkey does seem to [support local editor without copy/pasting][vm-editing] but we have yet to try it
+
+[Greasemonkey]: https://www.greasespot.net/
+[vm-editing]: https://violentmonkey.github.io/posts/how-to-edit-scripts-with-your-favorite-editor/
 
 ## Releases
 Releases are performed via `foundry`:
