@@ -29,12 +29,25 @@ We don't know how relatable this problem is to other people. As a result, the se
 
 1. Install [Greasemonkey][]
     - If you are not using [Firefox][], let me know and I can add support for [Violentmonkey][]
-2.
+2. Click on the "Greasemonkey" icon
+3. Click "New user script..."
+4. Open <https://raw.githubusercontent.com/twolfson/job-search-assist/main/script.js>
+5. Copy the content into our New User Script
+6. Type Ctrl+S or Cmd+S to save the script
+7. Navigate to <https://www.techjobsforgood.com/> and verify the new "Hide Company" button appears
 
 If we get enough adoption, then I can formalize this into a proper web extension (just has more upfront development effort).
 
 [Greasemonkey]: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
+
+## Updates
+To update to the latest version:
+
+1. Click on the "Greasemonkey" icon
+2. Click on "Job Search Assist (JSA)"
+3. Click on "Edit"
+4. Repeat steps 4-7 from "Installation"
 
 ## Unlicense
 As of May 28 2023, Todd Wolfson has released this repository and its contents to the public domain.
