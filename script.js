@@ -122,15 +122,17 @@ class BaseCompanyResult {
 
   makeJsaHideButtonEl() {
     const jsaHideButtonEl = makeJsaButton();
-    const handleClick = (evt) => {
-      addCompanyToHideList(this.name);
-      this.hide();
+    const handleClick = async (evt) => {
       // On sites like Climatebase where the container is a link (<a>), prevent that action
+      // DEV: This doesn't have to happen before `await`, but it feels saner if we do
       evt.stopPropagation();
       evt.preventDefault();
 
+      await addCompanyToHideList(this.name);
+      this.hide();
+
       // Re-run page bindings for multi-hide (e.g. Climatebase)
-      bindToPage();
+      await bindToPage();
     };
     jsaHideButtonEl.onclick = handleClick;
     return jsaHideButtonEl;
