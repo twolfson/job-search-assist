@@ -342,12 +342,6 @@ GM.registerMenuCommand(
   }
 );
 
-GM.registerMenuCommand("JSA: Unhide Company", () => {
-  const companyName = window.prompt("What's the company's name?");
-  console.log("Company name:", companyName);
-  console.error("Not implemented");
-});
-
 GM.registerMenuCommand("JSA: Clear Hidden Company List", async () => {
   const confirmationMessage = "Yes, clear the list";
   const numEntries = (await readHideList()).length;

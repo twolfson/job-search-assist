@@ -3,7 +3,7 @@ Browser extension to avoid seeing the same job/company listing twice
 
 ## Problem Definition
 > "Ugh, I refreshed the page and am seeing the same listings!" - Me
-
+>
 > "I just saw this company on another site!!" - Also me
 
 In user story form: As a job searcher, I want to avoid reading the same job/company listing twice
@@ -16,12 +16,16 @@ A browser extension which:
 TODO: Demo video goes here
 
 ## Supported Websites
-- Wellfound (fka AngelList)
-- Work at a Startup
-- Tech Jobs for Good
-- Climatebase
+- [Wellfound][] (fka AngelList)
+- [Work at a Startup][]
+- [Tech Jobs for Good][]
+- [Climatebase][]
 - Want to get support for more? [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
+[Wellfound]: https://wellfound.com/
+[Work at a Startup]: https://www.workatastartup.com/
+[Tech Jobs for Good]: https://www.techjobsforgood.com/
+[Climatebase]: https://climatebase.org/
 [Open an issue]: https://github.com/twolfson/job-search-assist/issues
 
 ## Installation
@@ -40,6 +44,16 @@ If we get enough adoption, then I can formalize this into a proper web extension
 
 [Greasemonkey]: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
+
+## Commands
+In addition to hiding companies, we also provide commands via "Greasemonkey icon -> User script commands... -> JSA: ..."
+
+The commands are:
+
+- JSA: Dump Hidden Companies (outputs to console)
+- JSA: Clear Hidden Company List
+
+It's very easy to add support for "Undo Changes in Last 5 Minutes", "Unhide Company", or something along those lines. If you'd like support for that, please [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
 ## Updates
 To update to the latest version:
