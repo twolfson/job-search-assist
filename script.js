@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name     Job Search Assist
-// @version  1
+// @version  1.1.1
+//   TODO: Auto-update as part of release
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
 // @include  https://www.workatastartup.com/companies*
@@ -13,6 +14,8 @@
 //   Provides _
 // @require  https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
 //   Provides Papa
+// @updateURL   https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.js
+// @downloadURL https://raw.githubusercontent.com/twolfson/job-search-assist/dev/github.hosted/script.js
 // @run-at document-end
 // ==/UserScript==
 
