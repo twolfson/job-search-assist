@@ -73,7 +73,7 @@ const makeJsaButton = () => {
   const buttonEl = document.createElement("button");
   buttonEl.style.cssText = [
     // Based on "Salem" from https://hypercolor.dev/#gradients
-    "background: linear-gradient(to left, rgb(27, 69, 160), rgb(127, 53, 185), rgb(124, 58, 237));",
+    "background: linear-gradient(to left, rgb(127, 53, 185), rgb(124, 58, 237));",
     // Taken from `drop-shadow-md`, https://tailwindcss.com/docs/drop-shadow#adding-a-drop-shadow
     "filter: drop-shadow(rgba(0, 0, 0, 0.07) 0px 4px 3px) drop-shadow(rgba(0, 0, 0, 0.06) 0px 2px 2px);",
     "color: white;",
@@ -149,17 +149,14 @@ class WellfoundCompanyResult extends BaseCompanyResult {
       return;
     }
 
-    // Find our insertion point
-    const reportButtonEl = existingButtonEls.find((buttonEl) =>
-      buttonEl.innerText.includes("Report")
-    );
-    assert(reportButtonEl, `Failed to find \"Report\" button for ${this.name}`);
-
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
-    // Bind with desired layouts
-    reportButtonEl.parentElement.insertBefore(jsaHideButtonEl, reportButtonEl);
+    // Find our insertion point and bind with desired layouts
+    const reportButtonEl = existingButtonEls.find((buttonEl) =>
+      buttonEl.innerText.includes("Report")
+    );
+    reportButtonEl.insertAdjacentElement('beforebegin', jsaHideButtonEl);
     jsaHideButtonEl.style.marginLeft = "auto";
     jsaHideButtonEl.style.marginRight = "0.5rem"; // 8px
     reportButtonEl.style.marginLeft = "0"; // 0px
@@ -167,7 +164,34 @@ class WellfoundCompanyResult extends BaseCompanyResult {
 }
 
 class TechJobsForGoodCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    const companyEls = document.querySelectorAll('.three.column.grid .ui.card');
+    return this.generateCompanyResultsFromCollection(companyEls);
+  }
 
+  getName() {
+    // DEV: `innerText` is uppercasing content on Firefox due to CSS style
+    return this.el.querySelector(".company_name").innerHTML;
+  }
+
+  bindToElement() {
+    // DEV: We always add elements, regardless of being hidden or not -- e.g. futureproof unhide support
+
+    // If we're already bound, exit out
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
+      return;
+    }
+
+    // Generate our buttons
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
+
+    // Find our insertion point and bind with desired layout
+    const postedTimeEl = this.el.querySelector('.extra.content');
+    postedTimeEl.insertAdjacentElement('afterend', jsaHideButtonEl);
+    jsaHideButtonEl.style.display = 'block';
+
+  }
 }
 
 const URL_PATTERN_TO_RESULT_MATCHES = [
