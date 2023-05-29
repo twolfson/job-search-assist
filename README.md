@@ -70,6 +70,13 @@ Development is somewhat janky as well, but faster than iterating with build step
 - Edit either (locally + copy content to Greasemonkey) OR edit directly inside of Greasemonkey
 - When ready to commit, copy content to local editor and commit changes
 
+## Releases
+Releases are performed via `foundry`:
+
+1. Update `CHANGELOG.md`
+2. Stage changes via `git add -p`
+3. Run `foundry release <version>`
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint`, format via `npm run format`, and test via `npm test`.
 
