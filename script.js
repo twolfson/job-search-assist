@@ -2,6 +2,7 @@
 // @name     Job Search Assist
 // @version  1
 // @include  https://wellfound.com/jobs*
+// @include  https://www.techjobsforgood.com/*
 // @grant    GM.registerMenuCommand
 // @grant    GM.getValue
 // @grant    GM.setValue
