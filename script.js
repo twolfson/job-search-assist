@@ -225,13 +225,18 @@ class WorkAtAStartupCompanyResult extends BaseCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
+    const jsaRowWrapperEl = document.createElement("div")
+    jsaRowWrapperEl.className = "flex"; // Leverage page's styles
+    jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
     // Find our insertion point and bind with desired layout
-    const tagsRowEl = [].find.call(this.el.querySelectorAll(".w-full > div"), (childEl) => childEl.querySelector(".fa-map-marker"));
-    tagsRowEl.insertAdjacentElement("afterend", jsaHideButtonEl);
+    const rowEls = this.el.querySelector(".w-full").children;
+    const lastRow = rowEls[rowEls.length - 1];
+    lastRow.insertAdjacentElement("afterend", jsaRowWrapperEl);
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
     jsaHideButtonEl.style.marginTop = "0.75rem"; // 12px
+    jsaHideButtonEl.style.marginLeft = "auto"; // Leverage `flex` wrapper to align right
   }
 }
 
