@@ -14,6 +14,7 @@ A browser extension which:
 - Hides job/company listing on click, on refresh, and across all websites
 
 TODO: Demo video goes here
+<!-- https://imgur.com/a/j81PXQu -->
 
 ## Supported Websites
 - [Wellfound][] (fka AngelList)
