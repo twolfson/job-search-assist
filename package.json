@@ -3,10 +3,10 @@
   "version": "1.1.1",
   "private": true,
   "description": "Browser extension to avoid seeing the same job/company listing twice",
-  "main": "script.js",
+  "main": "src/index.user.js",
   "scripts": {
-    "format": "eslint --fix *.js && prettier --write *.js",
-    "lint": "eslint *.js --max-warnings 0 && prettier --check *.js",
+    "format": "eslint --fix src/ && prettier --write src/",
+    "lint": "eslint src/ --max-warnings 0 && prettier --check src/",
     "test": "npm run lint"
   },
   "repository": {
