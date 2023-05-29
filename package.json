@@ -5,7 +5,8 @@
   "description": "Browser extension to avoid seeing the same job/company listing twice",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint *.js --max-warnings 0",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,19 @@
   "bugs": {
     "url": "https://github.com/twolfson/job-search-assist/issues"
   },
-  "homepage": "https://github.com/twolfson/job-search-assist#readme"
+  "homepage": "https://github.com/twolfson/job-search-assist#readme",
+  "devDependencies": {
+    "eslint": "~8.41.0",
+    "eslint-config-prettier": "~8.8.0",
+    "foundry": "~4.7.0",
+    "foundry-release-git": "~2.1.2",
+    "foundry-release-npm": "~2.1.1",
+    "prettier": "~2.8.8"
+  },
+  "foundry": {
+    "releaseCommands": [
+      "foundry-release-git",
+      "foundry-release-npm"
+    ]
+  }
 }
