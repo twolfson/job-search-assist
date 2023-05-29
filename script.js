@@ -22,6 +22,9 @@ const assert = (val, msg) => {
   if (!val) { throw new Error(msg); }
 };
 
+// Singleton to capture updates without requiring `await` for every interaction
+const hideList = null;
+
 const readHideList = async () => {
   // Parses to [{key1: valA, key2: valB}, {key1: valC, key2: valD}], https://www.papaparse.com/docs#results
   const csvContent = await GM.getValue(HIDE_LIST_KEY);
@@ -29,19 +32,21 @@ const readHideList = async () => {
     return [];
   }
 
+  // TODO: If parsing/unparsing or linear searching performance gets bad,
+  //   then consider caching the results in-memory and building an lookup map
   const parseResults = Papa.parse(csvContent, {header: true});
   if (parseResults.errors.length) {
     throw new Error(`Parse errors: ${JSON.stringify(parseResults.errors)}`);
   }
-  return parseResults.data;
+
+  const data = parseResults.data
+  if (data.length) {
+    assert(data[0].hidden_at, `Data structure not as expected ${data}`);
+  }
+  return data;
 }
 
 const addCompanyToHideList = async (companyName) => {
-  const hideList = await readHideList();
-  if (hideList.length) {
-    assert(hideList[0].hidden_at, `Data structure not as expected ${hideList}`);
-  }
-
   hideList.push({"company_name": companyName, "hidden_at": (new Date()).toISOString()});
 
   const csvContent = Papa.unparse(hideList);
@@ -79,6 +84,7 @@ class AngelListCompanyResult {
   constructor(el) {
     this.el = el;
     this.name = this.getName();
+    if (should
     this.bindToElement();
   }
 
@@ -90,7 +96,6 @@ class AngelListCompanyResult {
     // If we're already bound, exit out
     const existingButtonEls = [].slice.call(this.el.querySelectorAll('button'));
     if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
-      // TODO: Possibly reuse the existing element somehow instead?
       return;
     }
 
@@ -102,6 +107,7 @@ class AngelListCompanyResult {
     const jsaHideButtonEl = makeJsaButton();
     const handleClick = () => {
       addCompanyToHideList(this.name);
+      this.hide();
     };
     jsaHideButtonEl.onclick = handleClick;
 
@@ -111,10 +117,19 @@ class AngelListCompanyResult {
     jsaHideButtonEl.style.marginRight = '0.5rem'; // 8px
     reportButtonEl.style.marginLeft = '0'; // 0px
   }
+
+  hide() {
+    this.el.style.display = "none";
+  }
 }
 
 // Define our common function
-const main = () => {
+const main = async () => {
+  // If we haven't loaded from storage yet, do so now
+  if (!hideList) {
+    hideList = await readHideList();
+  }
+
   // Resolve our company results
   // DEV: `:not` filters out compact results
   const companyEls = document.querySelectorAll('div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]');
