@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name     Job Search Assist
+// @name     Job Search Assist (JSA)
 // @version  1
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
@@ -67,7 +67,6 @@ const addCompanyToHideList = async (companyName) => {
   }
 };
 
-// JSA = Job Search Assist
 const makeJsaButton = () => {
   // DEV: We tried to leverage hyperscript and JSDelivr but ran into headaches
   //   Violentmonkey supports JSX (we're on Greasemonkey), which is ideal but let's just keep shipping for now
@@ -89,12 +88,41 @@ const makeJsaButton = () => {
   return buttonEl;
 };
 
-// Define common interface for company results across different sites
-class AngelListCompanyResult {
+// Define company result interfaces across different sites
+class BaseCompanyResult {
+  static generateCompanyResultsFromCollection(companyEls) {
+    return [].slice.call(companyEls).map((el) => new this.constructor(el));
+  }
+
   constructor(el) {
     this.el = el;
     this.name = this.getName();
     this.bindToElement();
+  }
+
+  makeJsaHideButtonEl() {
+    const jsaHideButtonEl = makeJsaButton();
+    const handleClick = () => {
+      addCompanyToHideList(this.name);
+      this.hide();
+    };
+    jsaHideButtonEl.onclick = handleClick;
+    return jsaHideButtonEl;
+  }
+
+  hide() {
+    // DEV: We could check if this is already hidden, but it's simple to just keep hiding it
+    this.el.style.display = "none";
+  }
+}
+
+class WellfoundCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    const companyEls = document.querySelectorAll(
+      // DEV: `:not` filters out compact results
+      'div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]'
+    );
+    return this.generateCompanyResultsFromCollection(companyEls);
   }
 
   getName() {
@@ -117,12 +145,7 @@ class AngelListCompanyResult {
     assert(reportButtonEl, `Failed to find \"Report\" button for ${this.name}`);
 
     // Generate our buttons
-    const jsaHideButtonEl = makeJsaButton();
-    const handleClick = () => {
-      addCompanyToHideList(this.name);
-      this.hide();
-    };
-    jsaHideButtonEl.onclick = handleClick;
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
     // Bind with desired layouts
     reportButtonEl.parentElement.insertBefore(jsaHideButtonEl, reportButtonEl);
@@ -130,23 +153,28 @@ class AngelListCompanyResult {
     jsaHideButtonEl.style.marginRight = "0.5rem"; // 8px
     reportButtonEl.style.marginLeft = "0"; // 0px
   }
-
-  hide() {
-    // DEV: We could check if this is already hidden, but it's simple to just keep hiding it
-    this.el.style.display = "none";
-  }
 }
+
+class TechJobsForGoodCompanyResult extends BaseCompanyResult {
+
+}
+
+const URL_PATTERN_TO_RESULT_MATCHES = [
+  {
+    urlPattern: /https:\/\/wellfound.com\//,
+    companyResultClass: WellfoundCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/www.techjobsforgood.com\//,
+    companyResultClass: TechJobsForGoodCompanyResult,
+  },
+];
 
 // Define our common function
 const main = async () => {
   // Resolve our company results
-  // DEV: `:not` filters out compact results
-  const companyEls = document.querySelectorAll(
-    'div:not([data-test="FeaturedStartups"]) > * > [data-test="StartupResult"]'
-  );
-  const companyResults = [].slice
-    .call(companyEls)
-    .map((el) => new AngelListCompanyResult(el));
+  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({urlPattern}) => urlPattern.match(window.location));
+  console.log(result);
 
   // Find and hide companies which should already be hidden
   const hideList = await readHideList();
