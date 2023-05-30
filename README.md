@@ -43,6 +43,13 @@ For easier upfront development, we built this on top of [Violentmonkey][]. If we
 [Violentmonkey]: https://violentmonkey.github.io/get-it/
 [browser extension]: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 
+## How do you use this?
+I browse job boards, research companies, decide to persist info in an [Airtable][] or not, then hide the company from the job boards.
+
+For referring to a viable list of companies, I use said [Airtable][] as my starting point (e.g. see if relevant role still open or not).
+
+[Airtable]: https://airtable.com/
+
 ## Commands
 In addition to hiding companies, we also provide commands under "Violentmonkey icon -> Job Search Assist"
 
