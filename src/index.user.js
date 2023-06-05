@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name     Job Search Assist
 // @version  1
+// @include  https://*.getro.com/jobs*
 // @include  https://climatebase.org/jobs*
 // @include  https://jobs.ffwd.org/jobs*
 // @include  https://terra.do/climate-jobs/job-board/*
@@ -381,6 +382,10 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
   },
   {
     urlPattern: /https:\/\/jobs.ffwd.org\//,
+    companyResultClass: GetroCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/[^.]+.getro.com\//,
     companyResultClass: GetroCompanyResult,
   },
 ];
