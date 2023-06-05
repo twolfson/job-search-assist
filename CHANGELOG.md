@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.2.1 - Fixed !important overrides for Terra.do
+
 1.2.0 - Added Terra.do and Fast Forward
 
 1.1.1 - Fixed release after merge
