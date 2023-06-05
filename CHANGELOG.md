@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.2.0 - Added Terra.do and Fast Forward
+
 1.1.1 - Fixed release after merge
 
 1.1.0 - Added multi-hide support
