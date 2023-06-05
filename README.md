@@ -21,6 +21,7 @@ A browser extension which:
 
 ## Supported Websites
 - [Climatebase][]
+- [Fast Forward][]
 - [Tech Jobs for Good][]
 - [Terra.do][]
 - [Wellfound][] (fka AngelList)
@@ -28,6 +29,7 @@ A browser extension which:
 - Want to get support for more? [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
 [Climatebase]: https://climatebase.org/
+[Fast Forward]: https://jobs.ffwd.org/
 [Tech Jobs for Good]: https://www.techjobsforgood.com/
 [Terra.do]: https://terra.do/
 [Wellfound]: https://wellfound.com/
