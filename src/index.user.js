@@ -313,7 +313,10 @@ class TerraDoCompanyResult extends BaseCompanyResult {
     // Find our insertion point and bind with desired layout
     const flexColEl = this.el.querySelector(".flex > .flex-col");
     flexColEl.appendChild(jsaRowWrapperEl);
-    jsaHideButtonEl.style.padding = "0.5rem 0.75rem !important"; // 8px 12px (override annoying `button` styles)
+    // Use `setProperty` syntax to add "important", https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/#aa-getting-and-setting-a-propertys-priority
+    // DEV: `!important` required for overriding CSS-defined `button { !imporant }` styles
+    jsaHideButtonEl.style.setProperty("padding", "0.5rem 0.75rem", "important"); // 8px 12px
+    jsaHideButtonEl.style.setProperty("color", "white", "important");
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
   }
 }
