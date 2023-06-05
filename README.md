@@ -20,16 +20,18 @@ A browser extension which:
 <!-- Full album: https://imgur.com/a/j81PXQu -->
 
 ## Supported Websites
+- [Climatebase][]
+- [Tech Jobs for Good][]
+- [Terra.do][]
 - [Wellfound][] (fka AngelList)
 - [Work at a Startup][]
-- [Tech Jobs for Good][]
-- [Climatebase][]
 - Want to get support for more? [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
+[Climatebase]: https://climatebase.org/
+[Tech Jobs for Good]: https://www.techjobsforgood.com/
+[Terra.do]: https://terra.do/
 [Wellfound]: https://wellfound.com/
 [Work at a Startup]: https://www.workatastartup.com/
-[Tech Jobs for Good]: https://www.techjobsforgood.com/
-[Climatebase]: https://climatebase.org/
 [Open an issue]: https://github.com/twolfson/job-search-assist/issues
 
 ## Installation

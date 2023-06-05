@@ -5,6 +5,7 @@
 // @include  https://www.techjobsforgood.com/*
 // @include  https://www.workatastartup.com/companies*
 // @include  https://climatebase.org/jobs*
+// @include  https://terra.do/climate-jobs/job-board/*
 // @grant    GM_registerMenuCommand
 // @grant    GM_getValue
 // @grant    GM_setValue
@@ -285,6 +286,37 @@ class ClimatebaseCompanyResult extends BaseCompanyResult {
   }
 }
 
+class TerraDoCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    const companyEls = document.querySelectorAll("#search-results > div");
+    return this.generateCompanyResultsFromCollection(companyEls);
+  }
+
+  getName() {
+    return this.el.querySelector("p > a").innerText;
+  }
+
+  bindToElement() {
+    // If we're already bound, exit out
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
+      return;
+    }
+
+    // Generate our buttons
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
+    const jsaRowWrapperEl = document.createElement("div");
+    jsaRowWrapperEl.style.display = "flex";
+    jsaRowWrapperEl.appendChild(jsaHideButtonEl);
+
+    // Find our insertion point and bind with desired layout
+    const flexColEl = this.el.querySelector(".flex > .flex-col");
+    flexColEl.appendChild(jsaRowWrapperEl);
+    jsaHideButtonEl.style.padding = "0.5rem 0.75rem !important"; // 8px 12px (override annoying `button` styles)
+    jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
+  }
+}
+
 const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/wellfound.com\//,
@@ -301,6 +333,10 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/climatebase.org\//,
     companyResultClass: ClimatebaseCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/terra.do\//,
+    companyResultClass: TerraDoCompanyResult,
   },
 ];
 
