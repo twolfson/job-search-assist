@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.4.3 - Fixed Hacker News greyed out and flagged comments
+
 1.4.2 - Fixed Hacker News "more comments" support
 
 1.4.1 - Fixed Hacker News hide support
