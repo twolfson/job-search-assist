@@ -366,7 +366,7 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
     // DEV: Due to `<title>` filtering, we don't need to worry about being in a nested post or not
     const commentEls = document.querySelectorAll(
-      'table#hnmain > tbody > tr > td > table.comment-tree > tbody > tr'
+      "table#hnmain > tbody > tr > td > table.comment-tree > tbody > tr"
     );
     const companyEls = [].filter.call(commentEls, (commentEl) => {
       return commentEl.querySelector('.ind[indent="0"]');
@@ -386,7 +386,7 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     // hnhired.fly.dev (now archived) was quite simple yet robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
 
     // If this is a flagged comment (e.g. "synthsara" on https://news.ycombinator.com/item?id=36152014&p=2), then return fallback name
-    const username = this.el.querySelector('.hnuser').innerText;
+    const username = this.el.querySelector(".hnuser").innerText;
     const fallbackName = `hn-who-is-hiring--${username}`;
     if (this.el.querySelector(".comment.noshow")) {
       return fallbackName;
@@ -395,10 +395,12 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     // Isolate the first row (i.e. could be no `<p>` with a following `<p`> -- https://news.ycombinator.com/item?id=36232219)
     //   Relevant MDN explaining it includes Text node, not just HTML nodes/elements -- https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
     // DEV: .c00 is for color styling, here's a grayed out one - https://news.ycombinator.com/item?id=36162369
-    const firstLineNode = this.el.querySelector('.comment > .commtext').childNodes[0];
+    const firstLineNode = this.el.querySelector(".comment > .commtext")
+      .childNodes[0];
     // DEV: This does not match for the Aclima scenario due to not having any "|" in the first match, but that's an edge case so skip it
     // DEV: You can sanity check this implementation by seeing the "Company" setting
-    const companyNameMatch = firstLineNode.nodeValue && firstLineNode.nodeValue.match(/^([^|]+)(\|)/);
+    const companyNameMatch =
+      firstLineNode.nodeValue && firstLineNode.nodeValue.match(/^([^|]+)(\|)/);
     if (companyNameMatch) {
       return companyNameMatch[1].trim();
     } else {
@@ -449,7 +451,6 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
       el.style.display = "none";
     }
   }
-
 }
 
 const URL_PATTERN_TO_RESULT_MATCHES = [
@@ -486,7 +487,7 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
     additionalMatcher: () => {
       // DEV: We could get paranoid and filter by `whoishiring` user, but this is prob good enough
       // DEV: This won't render on nested post items due to page title change. This is intentional (e.g. https://news.ycombinator.com/item?id=36158013)
-      return window.document.title.startsWith('Ask HN: Who is hiring?');
+      return window.document.title.startsWith("Ask HN: Who is hiring?");
     },
     companyResultClass: HackerNewsWhoIsHiringCompanyResult,
   },
@@ -495,12 +496,14 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
 // Define our common function
 const bindToPage = async () => {
   // Resolve our company results
-  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({ urlPattern, additionalMatcher }) => {
-    if (window.location.href.match(urlPattern)) {
-      return additionalMatcher ? additionalMatcher() : true;
+  const result = URL_PATTERN_TO_RESULT_MATCHES.find(
+    ({ urlPattern, additionalMatcher }) => {
+      if (window.location.href.match(urlPattern)) {
+        return additionalMatcher ? additionalMatcher() : true;
+      }
+      return false;
     }
-    return false;
-  });
+  );
 
   if (!result) {
     return;
