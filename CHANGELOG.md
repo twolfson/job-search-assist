@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.4.1 - Fixed Hacker News hide support
+
 1.4.0 - Added Hacker News (Ask HN: Who is hiring?)
 
 1.3.0 - Added Getro
