@@ -364,9 +364,12 @@ class GetroCompanyResult extends BaseCompanyResult {
 class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
     // DEV: Due to `<title>` filtering, we don't need to worry about being in a nested post or not
-    const companyEls = document.querySelectorAll(
+    const commentEls = document.querySelectorAll(
       'table#hnmain > tbody > tr > td > table.comment-tree > tbody > tr'
     );
+    const companyEls = [].filter.call(commentEls, (commentEl) => {
+      return commentEl.querySelector('.ind[indent="0"]');
+    });
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
@@ -383,11 +386,12 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
+    const jsaRowWrapperEl = document.createElement("p");
+    jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
     // Find our insertion point and bind with desired layout
     const replyEl = this.el.querySelector(".reply");
-    console.log('wat', this.el, replyEl);
-    replyEl.insertAdjacentElement("beforebegin", jsaHideButtonEl);
+    replyEl.insertAdjacentElement("beforebegin", jsaRowWrapperEl);
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
   }
