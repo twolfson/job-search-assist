@@ -4,6 +4,8 @@
 // @include  https://*.getro.com/jobs*
 // @include  https://climatebase.org/jobs*
 // @include  https://jobs.ffwd.org/jobs*
+// @include  https://news.ycombinator.com/*
+//   "Ask HN: Who is hiring?" posts
 // @include  https://terra.do/climate-jobs/job-board/*
 // @include  https://wellfound.com/jobs*
 // @include  https://www.techjobsforgood.com/*
@@ -359,33 +361,38 @@ class GetroCompanyResult extends BaseCompanyResult {
   }
 }
 
-const URL_PATTERN_TO_RESULT_MATCHES = [
+const urlPatternMatcher = (urlPattern) => {
+  return () => {
+    return !!window.location.href.match(urlPattern)
+  };
+}
+const MATCHER_TO_RESULT_CLASS_MAPPING = [
   {
-    urlPattern: /https:\/\/wellfound.com\//,
+    matcher: urlPatternMatcher(/https:\/\/wellfound.com\//),
     companyResultClass: WellfoundCompanyResult,
   },
   {
-    urlPattern: /https:\/\/www.techjobsforgood.com\//,
+    matcher: urlPatternMatcher(/https:\/\/www.techjobsforgood.com\//),
     companyResultClass: TechJobsForGoodCompanyResult,
   },
   {
-    urlPattern: /https:\/\/www.workatastartup.com\//,
+    matcher: urlPatternMatcher(/https:\/\/www.workatastartup.com\//),
     companyResultClass: WorkAtAStartupCompanyResult,
   },
   {
-    urlPattern: /https:\/\/climatebase.org\//,
+    matcher: urlPatternMatcher(/https:\/\/climatebase.org\//),
     companyResultClass: ClimatebaseCompanyResult,
   },
   {
-    urlPattern: /https:\/\/terra.do\//,
+    matcher: urlPatternMatcher(/https:\/\/terra.do\//),
     companyResultClass: TerraDoCompanyResult,
   },
   {
-    urlPattern: /https:\/\/jobs.ffwd.org\//,
+    matcher: urlPatternMatcher(/https:\/\/jobs.ffwd.org\//),
     companyResultClass: GetroCompanyResult,
   },
   {
-    urlPattern: /https:\/\/[^.]+.getro.com\//,
+    matcher: urlPatternMatcher(/https:\/\/[^.]+.getro.com\//),
     companyResultClass: GetroCompanyResult,
   },
 ];
@@ -393,8 +400,8 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
 // Define our common function
 const bindToPage = async () => {
   // Resolve our company results
-  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({ urlPattern }) =>
-    window.location.href.match(urlPattern)
+  const result = MATCHER_TO_RESULT_CLASS_MAPPING.find(({ matcher }) => matcher());
+
   );
   if (!result) {
     if (DEBUG) {
