@@ -140,6 +140,7 @@ class BaseCompanyResult {
       await bindToPage();
     };
     jsaHideButtonEl.onclick = handleClick;
+    jsaHideButtonEl.title = `Hide Company (${this.name})`;
     return jsaHideButtonEl;
   }
 
@@ -374,7 +375,23 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
   }
 
   getName() {
-    return 'foo';
+    const commentContent = this.el.querySelector('.comment').innerText;
+    // People don't always follow the format, but we're considering those edge cases YAGNI for now (limited people using this)
+    //   Examples from https://news.ycombinator.com/item?id=36152014:
+    //   3dverse | Montreal, CAN | Onsite/hybrid (within CAN) | Visa
+    //   Replicate (YC W20) | Berkeley, CA + ... (has "(YC W20)" in title)
+    //   RockTree Capital is looking to fill 2 positions ... (no | at all)
+    //   Aclima https://aclima.io | Front End Lead ... (has URL in title)
+    //   JITO LABS, INC (as opposed to Jito Labs, Inc)
+    //   Superblocks // NYC ... (using // as delimiter)
+    // hnhired.fly.dev (now archived) was never that robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
+    const companyNameMatch = commentContent.match(/^[^|]+|/);
+    if (companyNameMatch) {
+      return companyNameMatch[0].strip();
+    } else {
+      const username = this.el.querySelector('.hnuser').innerText;
+      return `hn-who-is-hiring--${username}`;
+    }
   }
 
   bindToElement() {
