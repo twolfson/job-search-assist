@@ -417,6 +417,27 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
   }
+
+  hide() {
+    // Hide our element normally
+    super.hide();
+
+    // Additionally hide adjacent elements in our thread
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/nextElementSibling
+    let el = this.el;
+    while (true) {
+      el = el.nextElementSibling;
+
+      // If it's a new root post, then stop hiding
+      if (el.querySelector('.ind[indent="0"]')) {
+        break;
+      }
+
+      // Otherwise, hide this "nested" element
+      el.style.display = "none";
+    }
+  }
+
 }
 
 const URL_PATTERN_TO_RESULT_MATCHES = [
