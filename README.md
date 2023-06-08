@@ -23,6 +23,7 @@ A browser extension which:
 - [Climatebase][]
 - [Fast Forward][]
 - [Getro][] (\*.getro.com)
+- [Hacker News - Ask HN: Who is hiring?][]
 - [Tech Jobs for Good][]
 - [Terra.do][]
 - [Wellfound][] (fka AngelList)
@@ -31,6 +32,7 @@ A browser extension which:
 
 [Climatebase]: https://climatebase.org/
 [Fast Forward]: https://jobs.ffwd.org/
+[Hacker News - Ask HN: Who is hiring?]: https://news.ycombinator.com/submitted?id=whoishiring
 [Getro]: https://www.getro.com/
 [Tech Jobs for Good]: https://www.techjobsforgood.com/
 [Terra.do]: https://terra.do/
