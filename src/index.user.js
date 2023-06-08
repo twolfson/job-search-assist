@@ -385,17 +385,24 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     //   Superblocks // NYC ... (using // as delimiter)
     // hnhired.fly.dev (now archived) was quite simple yet robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
 
+    // If this is a flagged comment (e.g. "synthsara" on https://news.ycombinator.com/item?id=36152014&p=2), then return fallback name
+    const username = this.el.querySelector('.hnuser').innerText;
+    const fallbackName = `hn-who-is-hiring--${username}`;
+    if (this.el.querySelector(".comment.noshow")) {
+      return fallbackName;
+    }
+
     // Isolate the first row (i.e. could be no `<p>` with a following `<p`> -- https://news.ycombinator.com/item?id=36232219)
     //   Relevant MDN explaining it includes Text node, not just HTML nodes/elements -- https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
-    const firstLineNode = this.el.querySelector('.comment > .commtext.c00').childNodes[0];
+    // DEV: .c00 is for color styling, here's a grayed out one - https://news.ycombinator.com/item?id=36162369
+    const firstLineNode = this.el.querySelector('.comment > .commtext').childNodes[0];
     // DEV: This does not match for the Aclima scenario due to not having any "|" in the first match, but that's an edge case so skip it
     // DEV: You can sanity check this implementation by seeing the "Company" setting
-    const companyNameMatch = firstLineNode.nodeValue.match(/^([^|]+)(\|)/);
+    const companyNameMatch = firstLineNode.nodeValue && firstLineNode.nodeValue.match(/^([^|]+)(\|)/);
     if (companyNameMatch) {
       return companyNameMatch[1].trim();
     } else {
-      const username = this.el.querySelector('.hnuser').innerText;
-      return `hn-who-is-hiring--${username}`;
+      return fallbackName;
     }
   }
 
