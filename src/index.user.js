@@ -383,14 +383,14 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     //   Aclima <a href="...">https://aclima.io</a> | Front End Lead ... (has URL in title)
     //   JITO LABS, INC (as opposed to Jito Labs, Inc)
     //   Superblocks // NYC ... (using // as delimiter)
-    // hnhired.fly.dev (now archived) was quite robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
+    // hnhired.fly.dev (now archived) was quite simple yet robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
 
     // Isolate the first row (i.e. could be no `<p>` with a following `<p`> -- https://news.ycombinator.com/item?id=36232219)
     //   Relevant MDN explaining it includes Text node, not just HTML nodes/elements -- https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
     const firstLineNode = this.el.querySelector('.comment > .commtext.c00').childNodes[0];
-    assert(firstLineNode instanceof Text, `Expected Text node but received ${firstLineNode})`);
+    // DEV: This does not match for the Aclima scenario due to not having any "|" in the first match, but that's an edge case so skip it
+    // DEV: You can sanity check this implementation by seeing the "Company" setting
     const companyNameMatch = firstLineNode.nodeValue.match(/^([^|]+)(\|)/);
-    console.log(firstLineNode.nodeValue, companyNameMatch)
     if (companyNameMatch) {
       return companyNameMatch[1].trim();
     } else {
