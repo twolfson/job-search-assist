@@ -75,14 +75,16 @@ To update to the latest version:
 2. Click on "Confirm re-installation" the "Close"
 
 ## Development
-Development was somewhat janky as well due to using [Greasmonkey][], but faster than iterating with build steps and pressing a "Reload" button
+Development can be done via a few ways:
 
-- Edit either (locally + copy content to Violentmonkey) OR edit directly inside of Violentmonkey
-- When ready to commit, copy content to local editor and commit changes
+- Edit inside Violentmonkey OR paste modified version from local editor into Violentmonkey
+- Use [auto-reloading version][vm-editing]
+    - Run `npm run start:dev` to run local server
+    - Navigate to <http://127.0.0.1:8080/src/index.user.js> in browser to reinstall over existing version
+    - Ensure "Track local file before this window is closed" is set
+    - Confirm reinstallation
+    - Do not close window until ready (we suggest pinning instead)
 
-- Alternatively, Violentmonkey does seem to [support local editor without copy/pasting][vm-editing] but we have yet to try it
-
-[Greasemonkey]: https://www.greasespot.net/
 [vm-editing]: https://violentmonkey.github.io/posts/how-to-edit-scripts-with-your-favorite-editor/
 
 ## Releases

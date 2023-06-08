@@ -5,6 +5,7 @@
   "description": "Browser extension to avoid seeing the same job/company listing twice",
   "main": "src/index.user.js",
   "scripts": {
+    "start:dev": "http-server -c5",
     "format": "eslint --fix src/ && prettier --write src/",
     "lint": "eslint src/ --max-warnings 0 && prettier --check src/",
     "test": "npm run lint"
@@ -26,6 +27,7 @@
     "foundry": "~4.7.0",
     "foundry-release-git": "~2.1.2",
     "foundry-release-npm": "~2.1.1",
+    "http-server": "~14.1.1",
     "prettier": "~2.8.8"
   },
   "foundry": {
