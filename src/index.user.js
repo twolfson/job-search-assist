@@ -361,6 +361,38 @@ class GetroCompanyResult extends BaseCompanyResult {
   }
 }
 
+class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
+  static generateCompanyResultsFromDocument() {
+    // DEV: Due to `<title>` filtering, we don't need to worry about being in a nested post or not
+    const companyEls = document.querySelectorAll(
+      'table#hnmain > tbody > tr > td > table.comment-tree > tbody > tr'
+    );
+    return this.generateCompanyResultsFromCollection(companyEls);
+  }
+
+  getName() {
+    return 'foo';
+  }
+
+  bindToElement() {
+    // If we're already bound, exit out
+    const existingButtonEls = [].slice.call(this.el.querySelectorAll("button"));
+    if (existingButtonEls.some((buttonEl) => buttonEl.dataset.jsaBound)) {
+      return;
+    }
+
+    // Generate our buttons
+    const jsaHideButtonEl = this.makeJsaHideButtonEl();
+
+    // Find our insertion point and bind with desired layout
+    const replyEl = this.el.querySelector(".reply");
+    console.log('wat', this.el, replyEl);
+    replyEl.insertAdjacentElement("beforebegin", jsaHideButtonEl);
+    jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
+    jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
+  }
+}
+
 const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/wellfound.com\//,
@@ -394,9 +426,10 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
     urlPattern: /https:\/\/news.ycombinator.com\/item/,
     additionalMatcher: () => {
       // DEV: We could get paranoid and filter by `whoishiring` user, but this is prob good enough
+      // DEV: This won't render on nested post items due to page title change. This is intentional (e.g. https://news.ycombinator.com/item?id=36158013)
       return window.document.title.startsWith('Ask HN: Who is hiring?');
     },
-    companyResultClass: HNWhoIsHiringCompanyResult,
+    companyResultClass: HackerNewsWhoIsHiringCompanyResult,
   },
 ];
 
@@ -409,12 +442,8 @@ const bindToPage = async () => {
     }
     return false;
   });
+
   if (!result) {
-    if (DEBUG) {
-      console.debug(
-        `DEBUG: No matching pattern found for ${window.location.href}`
-      );
-    }
     return;
   }
   const companyResults =

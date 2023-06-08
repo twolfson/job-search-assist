@@ -75,7 +75,9 @@ To update to the latest version:
 2. Click on "Confirm re-installation" the "Close"
 
 ## Development
-Development can be done via a few ways:
+Before you do any development, we recommend backing up the Violentmonkey values to a `.json` file.
+
+Once you're backed up, development can be done via a few ways:
 
 - Edit inside Violentmonkey OR paste modified version from local editor into Violentmonkey
 - Use [auto-reloading version][vm-editing]
