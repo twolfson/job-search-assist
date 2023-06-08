@@ -433,6 +433,11 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
         break;
       }
 
+      // If it's no longer a comment (e.g. "### more comments..."), then stop looping
+      if (!el.matches("[id]")) {
+        break;
+      }
+
       // Otherwise, hide this "nested" element
       el.style.display = "none";
     }
