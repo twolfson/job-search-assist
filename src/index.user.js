@@ -361,48 +361,54 @@ class GetroCompanyResult extends BaseCompanyResult {
   }
 }
 
-const urlPatternMatcher = (urlPattern) => {
-  return () => {
-    return !!window.location.href.match(urlPattern)
-  };
-}
-const MATCHER_TO_RESULT_CLASS_MAPPING = [
+const URL_PATTERN_TO_RESULT_MATCHES = [
   {
-    matcher: urlPatternMatcher(/https:\/\/wellfound.com\//),
+    urlPattern: /https:\/\/wellfound.com\//,
     companyResultClass: WellfoundCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/www.techjobsforgood.com\//),
+    urlPattern: /https:\/\/www.techjobsforgood.com\//,
     companyResultClass: TechJobsForGoodCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/www.workatastartup.com\//),
+    urlPattern: /https:\/\/www.workatastartup.com\//,
     companyResultClass: WorkAtAStartupCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/climatebase.org\//),
+    urlPattern: /https:\/\/climatebase.org\//,
     companyResultClass: ClimatebaseCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/terra.do\//),
+    urlPattern: /https:\/\/terra.do\//,
     companyResultClass: TerraDoCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/jobs.ffwd.org\//),
+    urlPattern: /https:\/\/jobs.ffwd.org\//,
     companyResultClass: GetroCompanyResult,
   },
   {
-    matcher: urlPatternMatcher(/https:\/\/[^.]+.getro.com\//),
+    urlPattern: /https:\/\/[^.]+.getro.com\//,
     companyResultClass: GetroCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/news.ycombinator.com\/item/,
+    additionalMatcher: () => {
+      // DEV: We could get paranoid and filter by `whoishiring` user, but this is prob good enough
+      return window.document.title.startsWith('Ask HN: Who is hiring?');
+    },
+    companyResultClass: HNWhoIsHiringCompanyResult,
   },
 ];
 
 // Define our common function
 const bindToPage = async () => {
   // Resolve our company results
-  const result = MATCHER_TO_RESULT_CLASS_MAPPING.find(({ matcher }) => matcher());
-
-  );
+  const result = URL_PATTERN_TO_RESULT_MATCHES.find(({ urlPattern, additionalMatcher }) => {
+    if (window.location.href.match(urlPattern)) {
+      return additionalMatcher ? additionalMatcher() : true;
+    }
+    return false;
+  });
   if (!result) {
     if (DEBUG) {
       console.debug(
