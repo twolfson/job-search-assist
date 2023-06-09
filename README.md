@@ -20,6 +20,7 @@ A browser extension which:
 <!-- Full album: https://imgur.com/a/j81PXQu -->
 
 ## Supported Websites
+- [80,000 Hours][]
 - [Climatebase][]
 - [Fast Forward][]
 - [Getro][] (\*.getro.com)
@@ -30,6 +31,7 @@ A browser extension which:
 - [Work at a Startup][]
 - Want to get support for more? [Open an issue][] or [send me an email at todd@twolfson.com](mailto:todd@twolfson.com)
 
+[80,000 Hours]: https://jobs.80000hours.org/
 [Climatebase]: https://climatebase.org/
 [Fast Forward]: https://jobs.ffwd.org/
 [Hacker News]: https://hn.algolia.com/?dateRange=pastMonth&page=0&prefix=true&query=%22Ask%20HN%3A%20Who%20is%20hiring%3F%22&sort=byPopularity&type=story
