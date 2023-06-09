@@ -131,7 +131,7 @@ class BaseCompanyResult {
     const stopEvent = (evt) => {
       evt.stopPropagation();
       evt.preventDefault();
-    }
+    };
     const handleClick = async (evt) => {
       // On sites like Climatebase where the container is a link (<a>), prevent that action
       // DEV: This doesn't have to happen before `await`, but it feels saner if we do
@@ -465,14 +465,12 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
 // DEV: Numbers are not valid starts to identifers so use _ (even though indicates private usually), https://stackoverflow.com/a/3155352/1960509
 class _80000HoursCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
-    const companyEls = document.querySelectorAll(
-      'button.job-card'
-    );
+    const companyEls = document.querySelectorAll("button.job-card");
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
   getName() {
-    return this.el.querySelector('.flex-col > div:nth-child(2)').innerText;
+    return this.el.querySelector(".flex-col > div:nth-child(2)").innerText;
   }
 
   bindToElement() {
