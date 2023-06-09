@@ -484,8 +484,6 @@ class _80000HoursCompanyResult extends BaseCompanyResult {
 
     // Generate our buttons
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
-    const jsaRowWrapperEl = document.createElement("div");
-    jsaRowWrapperEl.appendChild(jsaHideButtonEl);
 
     // Find our insertion point and bind with desired layout
     this.el.appendChild(jsaHideButtonEl);
@@ -493,8 +491,6 @@ class _80000HoursCompanyResult extends BaseCompanyResult {
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
     jsaHideButtonEl.style.marginTop = "0.5rem"; // 8px
   }
-
-  hide () { }
 }
 
 const URL_PATTERN_TO_RESULT_MATCHES = [
