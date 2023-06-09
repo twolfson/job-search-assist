@@ -128,29 +128,27 @@ class BaseCompanyResult {
 
   makeJsaHideButtonEl() {
     const jsaHideButtonEl = makeJsaButton();
-console.debug('return false');
-    const handleClick = (evt) => {
-      // On sites like Climatebase where the container is a link (<a>), prevent that action
-console.debug('return false');
-      // DEV: This doesn't have to happen before `await`, but it feels saner if we do
+    const stopEvent = (evt) => {
       evt.stopPropagation();
       evt.preventDefault();
-console.debug('return false');
-      return false;
+    }
+    const handleClick = async (evt) => {
+      // On sites like Climatebase where the container is a link (<a>), prevent that action
+      // DEV: This doesn't have to happen before `await`, but it feels saner if we do
+      stopEvent(evt);
 
-      // await addCompanyToHideList(this.name);
+      await addCompanyToHideList(this.name);
       this.hide();
 
       // Re-run page bindings for multi-hide (e.g. Climatebase)
-      // await bindToPage();
+      await bindToPage();
     };
     jsaHideButtonEl.onclick = handleClick;
-    jsaHideButtonEl.addEventListener('click',  function(e) {
-      console.debug('wat', e.target, this)
-    if(e.target !== this) {
-        e.stopPropagation();
-    }
-}, true);
+
+    // Stop unexpected secondary events on 80,000 Hours
+    jsaHideButtonEl.onpointerdown = stopEvent;
+    jsaHideButtonEl.onpointerup = stopEvent;
+
     jsaHideButtonEl.title = `Hide Company (${this.name})`;
     return jsaHideButtonEl;
   }
@@ -436,9 +434,6 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     replyEl.insertAdjacentElement("beforebegin", jsaRowWrapperEl);
     jsaHideButtonEl.style.padding = "0.5rem 0.75rem"; // 8px 12px
     jsaHideButtonEl.style.borderRadius = "0.5rem"; // 8px
-
-    jsaHideButtonEl.style.position = "relative";
-    jsaHideButtonEl.style.zIndex = 2;
   }
 
   hide() {
