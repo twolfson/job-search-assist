@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.6.0 - Added MCJ Collective
+
 1.5.0 - Added 80,000 Hours
 
 1.4.3 - Fixed Hacker News greyed out and flagged comments
