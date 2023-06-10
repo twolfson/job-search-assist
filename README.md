@@ -25,6 +25,7 @@ A browser extension which:
 - [Fast Forward][]
 - [Getro][] (\*.getro.com)
 - [Hacker News][]
+- [MCJ Collective][]
 - [Tech Jobs for Good][]
 - [Terra.do][]
 - [Wellfound][] (fka AngelList)
@@ -36,6 +37,7 @@ A browser extension which:
 [Fast Forward]: https://jobs.ffwd.org/
 [Hacker News]: https://hn.algolia.com/?dateRange=pastMonth&page=0&prefix=true&query=%22Ask%20HN%3A%20Who%20is%20hiring%3F%22&sort=byPopularity&type=story
 [Getro]: https://www.getro.com/
+[MCJ Collective]: https://jobs.mcjcollective.com/
 [Tech Jobs for Good]: https://www.techjobsforgood.com/
 [Terra.do]: https://terra.do/
 [Wellfound]: https://wellfound.com/

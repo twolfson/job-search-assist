@@ -3,8 +3,9 @@
 // @version  1
 // @include  https://*.getro.com/jobs*
 // @include  https://climatebase.org/jobs*
-// @include  https://jobs.ffwd.org/jobs*
 // @include  https://jobs.80000hours.org/*
+// @include  https://jobs.ffwd.org/jobs*
+// @include  https://jobs.mcjcollective.com/jobs*
 // @include  https://news.ycombinator.com/*
 //   "Ask HN: Who is hiring?" posts
 // @include  https://terra.do/climate-jobs/job-board/*
@@ -514,6 +515,10 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
   },
   {
     urlPattern: /https:\/\/jobs.ffwd.org\//,
+    companyResultClass: GetroCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/jobs.mcjcollective.com\//,
     companyResultClass: GetroCompanyResult,
   },
   {
