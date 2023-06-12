@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.7.0 - Added Climate Draft
+
 1.6.0 - Added MCJ Collective
 
 1.5.0 - Added 80,000 Hours
