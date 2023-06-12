@@ -4,6 +4,7 @@
 // @include  https://*.getro.com/jobs*
 // @include  https://climatebase.org/jobs*
 // @include  https://jobs.80000hours.org/*
+// @include  https://jobs.climatedraft.org/jobs*
 // @include  https://jobs.ffwd.org/jobs*
 // @include  https://jobs.mcjcollective.com/jobs*
 // @include  https://news.ycombinator.com/*
@@ -512,6 +513,10 @@ const URL_PATTERN_TO_RESULT_MATCHES = [
   {
     urlPattern: /https:\/\/terra.do\//,
     companyResultClass: TerraDoCompanyResult,
+  },
+  {
+    urlPattern: /https:\/\/jobs.climatedraft.org\//,
+    companyResultClass: GetroCompanyResult,
   },
   {
     urlPattern: /https:\/\/jobs.ffwd.org\//,

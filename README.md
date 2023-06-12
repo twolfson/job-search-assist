@@ -22,6 +22,7 @@ A browser extension which:
 ## Supported Websites
 - [80,000 Hours][]
 - [Climatebase][]
+- [Climate Draft][]
 - [Fast Forward][]
 - [Getro][] (\*.getro.com)
 - [Hacker News][]
@@ -34,6 +35,7 @@ A browser extension which:
 
 [80,000 Hours]: https://jobs.80000hours.org/
 [Climatebase]: https://climatebase.org/
+[Climate Draft]: https://jobs.climatedraft.org/
 [Fast Forward]: https://jobs.ffwd.org/
 [Hacker News]: https://hn.algolia.com/?dateRange=pastMonth&page=0&prefix=true&query=%22Ask%20HN%3A%20Who%20is%20hiring%3F%22&sort=byPopularity&type=story
 [Getro]: https://www.getro.com/
