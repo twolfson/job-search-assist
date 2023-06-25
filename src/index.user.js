@@ -379,9 +379,21 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     const commentEls = document.querySelectorAll(
       "table#hnmain > tbody > tr > td > table.comment-tree > tbody > tr"
     );
-    const companyEls = [].filter.call(commentEls, (commentEl) => {
-      return commentEl.querySelector('.ind[indent="0"]');
-    });
+    const companyEls = [].filter
+      .call(commentEls, (commentEl) => {
+        return commentEl.querySelector('.ind[indent="0"]');
+      })
+      .filter((commentEl) => {
+        // Hide ones that wer deleted (e.g. "23 days ago | prev | next [2 more]" on https://news.ycombinator.com/item?id=36152014)
+        const noshowCommentEl = commentEl.querySelector(".noshow.comment");
+        if (
+          noshowCommentEl &&
+          noshowCommentEl.innerText.trim() == "[deleted]"
+        ) {
+          return false;
+        }
+        return true;
+      });
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
