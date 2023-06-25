@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.8.0 - Fixed Hacker News deleted comment support
+
 1.7.0 - Added Climate Draft
 
 1.6.0 - Added MCJ Collective
