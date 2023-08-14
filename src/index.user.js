@@ -221,7 +221,7 @@ class TechJobsForGoodCompanyResult extends BaseCompanyResult {
     const jsaHideButtonEl = this.makeJsaHideButtonEl();
 
     // Find our insertion point and bind with desired layout
-    const postedTimeEl = this.el.querySelector(".extra.content");
+    const postedTimeEl = this.el.querySelector(".content");
     postedTimeEl.insertAdjacentElement("afterend", jsaHideButtonEl);
     jsaHideButtonEl.style.padding = "0.75rem"; // 12px
     jsaHideButtonEl.style.display = "block";
