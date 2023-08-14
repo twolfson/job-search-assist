@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.9.0 - Fixed Tech Jobs for Good support due to hierarchy change
+
 1.8.0 - Fixed Hacker News deleted comment support
 
 1.7.0 - Added Climate Draft
