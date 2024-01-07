@@ -372,6 +372,14 @@ class GetroCompanyResult extends BaseCompanyResult {
 }
 
 class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
+  static getUsernameFromElement(el) {
+    const usernameEl = el.querySelector(".hnuser");
+    if (!usernameEl) {
+      return null;
+    }
+    return usernameEl.innerText;
+  }
+
   static generateCompanyResultsFromDocument() {
     // DEV: Due to `<title>` filtering, we don't need to worry about being in a nested post or not
     const commentEls = document.querySelectorAll(
@@ -382,7 +390,7 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
         return commentEl.querySelector('.ind[indent="0"]');
       })
       .filter((commentEl) => {
-        // Hide ones that wer deleted (e.g. "23 days ago | prev | next [2 more]" on https://news.ycombinator.com/item?id=36152014)
+        // Hide ones that were deleted (e.g. "23 days ago | prev | next [2 more]" on https://news.ycombinator.com/item?id=36152014)
         const noshowCommentEl = commentEl.querySelector(".noshow.comment");
         if (
           noshowCommentEl &&
@@ -391,6 +399,12 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
           return false;
         }
         return true;
+      })
+      .filter((commentEl) => {
+        // Repeat of "23 days ago | prev | next [2 more]" but with collapsed version
+        // As a solution, require a username can be found, "4 days ago | prev | next [4 more] ", https://news.ycombinator.com/item?id=38842977&p=2
+        const username = this.getUsernameFromElement(commentEl);
+        return !!username;
       });
     return this.generateCompanyResultsFromCollection(companyEls);
   }
@@ -407,7 +421,7 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     // hnhired.fly.dev (now archived) was quite simple yet robust it seems, https://github.com/gadogado/hn-hired/blob/293ca9cd015bd8ee390d99978803f4f4ef30491f/scripts/get-latest-story.server.ts#L163-L168
 
     // If this is a flagged comment (e.g. "synthsara" on https://news.ycombinator.com/item?id=36152014&p=2), then return fallback name
-    const username = this.el.querySelector(".hnuser").innerText;
+    const username = this.constructor.getUsernameFromElement(this.el);
     const fallbackName = `hn-who-is-hiring--${username}`;
     if (this.el.querySelector(".comment.noshow")) {
       return fallbackName;
@@ -457,6 +471,12 @@ class HackerNewsWhoIsHiringCompanyResult extends BaseCompanyResult {
     let el = this.el;
     while (true) {
       el = el.nextElementSibling;
+
+      // If it's the end of the list, then stop looping
+      // https://news.ycombinator.com/item?id=38842977&p=2
+      if (el === null) {
+        break;
+      }
 
       // If it's a new root post, then stop hiding
       if (el.querySelector('.ind[indent="0"]')) {
