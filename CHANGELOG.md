@@ -1,4 +1,6 @@
 # Job Search Assist Changelog
+1.10.0 - Fixed Hacker News collapsed comment + hiding at end of list support
+
 1.9.1 - Corrected Tech Jobs for Good layout
 
 1.9.0 - Fixed Tech Jobs for Good support due to hierarchy change
