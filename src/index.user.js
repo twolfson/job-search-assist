@@ -201,7 +201,7 @@ class WellfoundCompanyResult extends BaseCompanyResult {
 
 class TechJobsForGoodCompanyResult extends BaseCompanyResult {
   static generateCompanyResultsFromDocument() {
-    const companyEls = document.querySelectorAll(".three.column.grid .ui.card");
+    const companyEls = document.querySelectorAll(".ui.grid .ui.card");
     return this.generateCompanyResultsFromCollection(companyEls);
   }
 
